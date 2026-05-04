@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOROSOFT System | Organized Architecture</title>
+    <style>
+        :root {
+            --bg: #0b0b0b;
+            --card-bg: #141414;
+            --accent: #00ffcc;
+            --text: #e0e0e0;
+            --text-dim: #888;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+
+        header h1 {
+            color: var(--accent);
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Grid System untuk 42 Unit */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .item-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .item-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+
+        .item-info {
+            padding: 15px;
+        }
+
+        .item-title {
+            font-size: 0.95em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-meta {
+            font-size: 0.8em;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .badge {
+            color: var(--accent);
+            font-size: 0.75em;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8em;
+            color: var(--text-dim);
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>KOROSOFT SYSTEM</h1>
+    <p>v.0.0.1 (BETA VARIANT) — Organized Architecture</p>
+</header>
+
+<div class="container">
+    <div class="catalog-grid">
+        
+        <!-- Contoh Item 1 -->
+        <div class="item-card">
+            <img src="assets/midnight-ruins.webp" alt="Midnight Ruins" class="item-img" loading="lazy">
+            <div class="item-info">
+                <div class="item-title">(+) Midnight Ruins</div>
+                <div class="item-meta">
+                    <span>Easy | DQ346</span>
+                    <span class="badge">RPG Planner</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contoh Item 2 -->
+        <div class="item-card">
+            <img src="assets/pixel-valor.webp" alt="Pixel Valor" class="item-img" loading="lazy">
+            <div class="item-info">
+                <div class="item-title">(+) Pixel Valor</div>
+                <div class="item-meta">
+                    <span>Easy | DQ06</span>
+                    <span class="badge">Gamified</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tambahkan 39 unit lainnya di sini -->
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 KOROSOFT. Designed for focus and logic.
+</footer>
+
+</body>
+</html>
