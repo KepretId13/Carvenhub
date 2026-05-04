@@ -90,6 +90,62 @@
         .btn-buy { background: var(--accent); color: #000; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 20px; }
 
         footer { margin-top: 50px; color: #444; font-size: 0.8em; border-top: 1px solid #222; padding-top: 20px; }
+
+        /* Penyelamat untuk Layar HP */
+        @media (max-width: 768px) {
+        body {
+           flex-direction: column; /* Sidebar pindah ke atas */
+           overflow-y: auto;
+        }
+
+        .sidebar {
+           width: 100%;
+           height: auto;
+           border-right: none;
+           border-bottom: 1px solid #222;
+           padding: 15px;
+        }
+
+       .sidebar h2 {
+           margin-bottom: 15px;
+           text-align: center;
+    }
+
+       .nav-group {
+          display: flex;
+          overflow-x: auto; /* Menu bisa di-swipe kiri-kanan */
+          gap: 10px;
+          padding-bottom: 5px;
+    }
+
+       .nav-item {
+           margin-bottom: 0;
+           white-space: nowrap; /* Teks menu nggak pecah ke bawah */
+           padding: 8px 15px;
+    }
+
+       .main-content {
+          padding: 20px;
+    }
+
+       .header-bar {
+           flex-direction: column;
+           align-items: flex-start;
+    }
+
+       .search-bar {
+           width: 100%; /* Search bar jadi selebar layar */
+    }
+
+       .modal-content {
+          width: 95%;
+          margin: 10% auto;
+    }
+
+       .modal-body {
+          flex-direction: column;
+    }
+}
     </style>
 </head>
 <body>
