@@ -60,10 +60,13 @@
         }
 
         .item-img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            background: #1a1a1a;
+             width: 100%;
+             /* Hapus aspect-ratio: 1/1; agar mengikuti bentuk asli gambar */
+             height: auto; 
+             /* Gunakan contain agar gambar terlihat utuh di dalam area card */
+             object-fit: contain; 
+             background: #1a1a1a;
+              display: block;
         }
 
         .item-info {
