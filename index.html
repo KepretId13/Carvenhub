@@ -60,20 +60,28 @@
         .filter-select { background: #1a1a1a; border: 1px solid #333; padding: 10px; border-radius: 6px; color: #fff; }
 
         /* --- GRID --- */
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
+        @media (max-width: 768px) {
+    /* ... kode yang lain tetep ada ... */
 
-        .item-card { 
-            background: var(--card-bg); 
-            border: 1px solid #222; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            cursor: pointer; 
-            transition: 0.3s;
-        }
+    .catalog-grid {
+        /* Kita ubah minmax-nya jadi lebih kecil (sekitar 140px-160px) */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px; /* Jarak antar box agak dikecilin dikit */
+    }
+
+    .item-info {
+        padding: 10px; /* Padding dalem box dikecilin biar hemat tempat */
+    }
+
+    .item-title {
+        font-size: 0.8em; /* Ukuran font judul dikecilin dikit biar gak menuhi baris */
+    }
+
+    .badge {
+        font-size: 0.6em; /* Badge DQ juga dikecilin biar proporsional */
+    }
+}
+        
         .item-card:hover { border-color: var(--accent); transform: translateY(-5px); }
         .item-img { width: 100%; height: auto; display: block; object-fit: contain; background: #000; }
         .item-info { padding: 15px; }
