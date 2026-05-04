@@ -4,7 +4,7 @@ body { background: var(--bg);
       color: #e0e0e0; 
       font-family: 'Segoe UI', 
           sans-serif; margin: 0; overflow-x: hidden; }
-
+ 
 /* Sidebar Slide Logic */
 .sidebar { 
     height: 100%; 
