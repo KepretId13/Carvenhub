@@ -188,8 +188,24 @@ body { background: var(--bg);
     cursor: pointer; 
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* Kita ganti nama biar ga bingung */
+@keyframes carvenShowUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95); /* Mulai dari ukuran 95% (ngecil dikit) */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* Kembali ke ukuran asli */
+  }
 }
 
+.item-card {
+  /* ... styling grid/flex lu yang lama ... */
+  opacity: 0; /* Sembunyiin dulu wajib! */
+  animation: carvenShowUp 0.4s ease-out forwards; /* forwards biar opacity ttp 1 after anim */
+  
+  /* Tambahin ini biar ga nabrak layout lain pas anim */
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
