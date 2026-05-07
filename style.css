@@ -94,19 +94,19 @@ body { background: var(--bg);
     border-color: var(--accent); 
     transform: translateY(-5px); 
 }
-.item-img {
-  /* ... styling lu yang lama (width, height, dll) ... */
-  background: #1a1a1a; /* Warna dasar tulang */
-  background-image: linear-gradient(
-    90deg, 
-    #1a1a1a 0px, 
-    #222222 40px, 
-    #1a1a1a 80px
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite linear;
+.item-img { 
+      width: 100%; 
+      height: auto; 
+      display: block; 
+      object-fit: contain; 
+      background: #000; 
 }
 
+.skeleton-card {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+}
 
 .item-info { 
       padding: 15px; 
