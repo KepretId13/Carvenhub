@@ -314,6 +314,26 @@
         </div>
     </div>
 
-    <script src="debug.js"></script>
+    <script src="debug.js">
+
+        // Kita bungkus biar dia nunggu "Dunia" siap dulu
+    document.addEventListener("DOMContentLoaded", () => {
+    shiftUnits();
+});
+
+    function shiftUnits() {
+    const cards = document.querySelectorAll('.item-card');
+    
+    // Logic otomatis: Yang paling baru di DOM dapet order paling kecil (paling depan)
+    cards.forEach((card, index) => {
+        // Ini bakal nge-set order secara dinamis: -16, -15, -14... sampe -1
+        card.style.order = -(cards.length - index);
+        
+        // Kasih delay animasi juga biar "1 by 1" munculnya otomatis
+        card.style.animationDelay = `${index * 0.1}s`;
+    });
+}
+        
+    </script>
 </body>
 </html>
