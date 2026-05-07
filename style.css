@@ -94,6 +94,18 @@ body { background: var(--bg);
     border-color: var(--accent); 
     transform: translateY(-5px); 
 }
+
+.item-card {
+  opacity: 0; /* Sembunyi dulu */
+  animation: fadeInUp 0.5s ease forwards; /* Pake keyframes yang tadi */
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
 .item-img { 
       width: 100%; 
       height: auto; 
