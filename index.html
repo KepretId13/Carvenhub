@@ -3,98 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOROSOFT | Independent Creator Universe</title>
+    <title>KOROSOFT | Fal Independent Creator</title>
     <style>
         body {
-            background-color: #0d1117; /* Gelap khas Dev Mode */
+            background-color: #0d1117;
             color: #c9d1d9;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 600px;
-            padding: 20px;
+        .dashboard {
+            max-width: 850px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 3rem;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
             color: #58a6ff;
+            font-size: 2.5rem;
+            margin: 0;
+            letter-spacing: 3px;
         }
 
         .version {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
             color: #8b949e;
-            margin-bottom: 40px;
         }
 
-        .lore-text {
-            font-style: italic;
-            color: #8b949e;
-            margin-bottom: 50px;
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            text-align: left;
+        }
+
+        h2 {
+            color: #58a6ff;
+            font-size: 1.2rem;
+            border-left: 3px solid #58a6ff;
+            padding-left: 10px;
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 0.95rem;
             line-height: 1.6;
+            color: #8b949e;
         }
 
-        .nav-links {
+        ul {
+            padding-left: 20px;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .nav-section {
+            grid-column: span 2;
             display: flex;
-            gap: 20px;
             justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #30363d;
+            padding-top: 30px;
         }
 
-        .nav-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 15px 25px;
-            text-decoration: none;
-            color: #c9d1d9;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .nav-card:hover {
-            border-color: #58a6ff;
+        .nav-btn {
             background: #21262d;
-            transform: translateY(-5px);
+            border: 1px solid #30363d;
+            padding: 12px 30px;
+            color: #c9d1d9;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.7rem;
-            color: #484f58;
+        .nav-btn:hover {
+            border-color: #58a6ff;
+            background: #30363d;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .nav-section { grid-column: span 1; flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+<div class="dashboard">
+    <header>
         <h1>KOROSOFT</h1>
         <div class="version">v.0.1.0-PF</div>
-        
-        <p class="lore-text">
-            "Semesta kecil di mana nalar dan mekanisme bekerja secara mandiri. 
-            Membangun intelektual stabil di tengah dunia yang tak masuk akal."
-        </p>
+    </header>
 
-        <nav class="nav-links">
-            <a href="design.html" class="nav-card">📁 Planner List</a>
-            <a href="ost.html" class="nav-card">🎵 OST List</a>
-        </nav>
-    </div>
+    <div class="content-grid">
+        <section>
+            <h2>Siapa Saya?</h2>
+            <p>Saya adalah <strong>Fal</strong>, seorang <em>Independent Developer</em> dan <em>Digital Creator</em> yang fokus pada pembangunan ekosistem digital mandiri. Saya bekerja menggunakan unit <strong>Lenovo V14 G2 ALC</strong> untuk mengulik mekanisme teknis yang etis dan nalar.</p>
+        </section>
 
-    <div class="footer">
-        © 2026 Fal | Independent Creator Project
+        <section>
+            <h2>Apa yang Saya Jual?</h2>
+            <p>Saya menyediakan solusi manajemen hidup berbasis <strong>Psychological Horror & Sci-Fi Aesthetic</strong>. Produk utama saya adalah sistem <em>planner</em> digital yang dirancang untuk menjaga stabilitas intelektual melalui kalkulasi durabilitas yang presisi.</p>
+        </section>
+
+        <section>
+            <h2>Tentang KOROSOFT</h2>
+            <p>KOROSOFT adalah sebuah "semesta kecil" atau <em>Small Universe</em> yang diciptakan untuk melarutkan gempuran dunia yang <em>illogical</em>. Di sini, nalar teknis digunakan untuk menciptakan kemandirian ekosistem yang tidak bergantung pada platform luar yang bising.</p>
+        </section>
+
+        <section>
+            <h2>Fasilitas & Produk</h2>
+            <ul>
+                <li><strong>Planner List:</strong> 42 Unit desain modular (Daily, Weekly, Monthly).</li>
+                <li><strong>OST Theme:</strong> 32 Aset audio asli (Quest Theme Vol I, II, IV) sebagai narasi plot.</li>
+                <li><strong>Dev Tools:</strong> Fitur <em>Master Override</em> untuk kontrol algoritme mekanikal.</li>
+                <li><strong>DQ System:</strong> Kalkulasi <em>Digital Quotient</em> untuk memantau performa mental.</li>
+            </ul>
+        </section>
+
+        <div class="nav-section">
+            <a href="design.html" class="nav-btn">📁 Buka Planner List</a>
+            <a href="ost.html" class="nav-btn">🎵 Jelajahi OST List</a>
+        </div>
     </div>
+</div>
 
 </body>
 </html>
