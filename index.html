@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOROSOFT | Fal Independent Creator</title>
+    <title>KOROSOFT | Fal Independent Creator Universe</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -22,38 +22,43 @@
             overflow-x: hidden;
         }
 
-        /* 1. HERO SECTION (Tabel di Atas) */
-        .hero {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        /* 1. HERO SECTION (Header Minimalis di Atas) */
+        header {
+            text-align: center;
+            padding: 80px 20px;
             border-bottom: 1px solid var(--border);
         }
 
-        .dashboard-mini {
-            max-width: 800px;
+        h1 { color: var(--accent); font-size: 3rem; letter-spacing: 5px; margin: 0; }
+        .version { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); }
+        
+        .hero-desc { max-width: 600px; margin: 30px auto; color: var(--text-muted); font-size: 1rem; }
+
+        .nav-section { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
+        .nav-btn {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 12px 30px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
         }
+        .nav-btn:hover { border-color: var(--accent); background: #21262d; transform: translateY(-3px); }
 
-        /* 2. SHOWCASE SECTION (Scroll Animation) */
+        /* 2. SHOWCASE SECTION (Storytelling Scroll) */
         .showcase {
-            padding: 100px 20px;
-            max-width: 1000px;
+            padding: 150px 20px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .reveal {
             display: flex;
             align-items: center;
-            gap: 50px;
-            margin-bottom: 150px;
+            gap: 60px;
+            margin-bottom: 180px;
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease-out;
@@ -68,117 +73,97 @@
             flex-direction: row-reverse;
         }
 
-        .reveal-img {
+        .reveal-gif {
             flex: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            max-width: 450px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: #090c10;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .reveal-img img {
+        .reveal-gif img {
             width: 100%;
             display: block;
-            filter: grayscale(0.5) contrast(1.2);
         }
 
         .reveal-text {
             flex: 1;
         }
 
-        /* 3. FAQ SECTION */
-        .faq {
-            padding: 100px 20px;
-            background: #090c10;
+        .reveal-text h2 { color: var(--accent); font-size: 1.8rem; margin-top: 0; }
+        .reveal-text p { color: var(--text-muted); line-height: 1.7; font-size: 1rem; }
+
+        /* 3. FOOTER */
+        footer {
+            padding: 50px;
             text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
         }
 
-        .faq-item {
-            max-width: 700px;
-            margin: 0 auto 20px;
-            text-align: left;
-            background: var(--card-bg);
-            padding: 20px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        @media (max-width: 768px) {
+            .reveal { flex-direction: column; gap: 30px; text-align: center; }
+            .reveal:nth-child(even) { flex-direction: column; }
         }
-
-        /* Nav & Utility */
-        .nav-section { margin-top: 30px; display: flex; gap: 15px; justify-content: center; }
-        .nav-btn {
-            background: var(--accent);
-            color: white;
-            padding: 10px 25px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .nav-btn:hover { opacity: 0.8; transform: scale(1.05); }
-
-        h1 { color: var(--accent); letter-spacing: 4px; margin: 0; }
-        h2 { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="dashboard-mini">
-            <h1>KOROSOFT</h1>
-            <p class="version">v.0.1.0-PF | Independent Creator Universe</p>
-            <p>Selamat datang di ekosistem mandiri Fal. Gunakan nalar untuk menjelajahi mekanisme kami.</p>
-            <div class="nav-section">
-                <a href="design.html" class="nav-btn">📁 Planner List</a>
-                <a href="ost.html" class="nav-btn" style="background: transparent; border: 1px solid var(--accent);">🎵 OST List</a>
-            </div>
-        </div>
-        <p style="margin-top: 50px; color: var(--text-muted); font-size: 0.8rem;">Scroll kebawah untuk eksplorasi ↓</p>
-    </section>
+    <header>
+        <h1>KOROSOFT</h1>
+        <div class="version">v.0.1.0-PF | Independent Creator Universe</div>
+        <p class="hero-desc">Saya adalah Fal, kreator yang membangun ekosistem digital mandiri untuk menjaga stabilitas nalar di tengah dunia yang tak masuk akal.</p>
+        
+        <nav class="nav-section">
+            <a href="design.html" class="nav-btn">📁 Buka Planner List</a>
+            <a href="ost.html" class="nav-btn">🎵 Jelajahi OST List</a>
+        </nav>
+        <p style="margin-top: 50px; color: var(--text-muted); font-size: 0.8rem;">Scroll kebawah untuk eksplorasi mekanisme ↓</p>
+    </header>
 
-    <section class="showcase">
-        <div class="reveal">
-            <div class="reveal-img">
-                <img src="path/ke/planner_weekly.jpg" alt="Weekly Planner Preview">
-            </div>
-            <div class="reveal-text">
-                <h2>Mekanisme Weekly</h2>
-                <p>Ukur aktivitas dengan durabilitas tinggi. Sistem yang dirancang untuk menjaga ritme mingguan lu tetap sehat di tengah gempuran tugas.</p>
-            </div>
+<section class="showcase">
+    
+    <div class="reveal">
+        <div class="reveal-gif">
+            <img src="path/ke/space-invaders-monthly.gif" alt="Space Invaders Monthly Defense">
         </div>
+        <div class="reveal-text">
+            <h2>Monthly: The Alien Invasion (1978)</h2>
+            <p>Gempuran tugas adalah invasi alien yang tak pernah berhenti. Gunakan Monthly Defense sebagai perisai dan tembakan untuk melarutkan gempuran tersebut sebelum mereka menghancurkan pertahanan mental Anda.</p>
+        </div>
+    </div>
 
-        <div class="reveal">
-            <div class="reveal-img">
-                <img src="path/ke/planner_monthly.jpg" alt="Monthly Defense Preview">
-            </div>
-            <div class="reveal-text">
-                <h2>Monthly Defense</h2>
-                <p>Benteng pertahanan terakhir. Melarutkan racun stres lewat kalkulasi porsi istirahat yang logis. Saat dunia bergerak cepat, Monthly lu tetap stabil.</p>
-            </div>
+    <div class="reveal">
+        <div class="reveal-gif">
+            <img src="path/ke/tetris-weekly.gif" alt="Tetris Weekly Attack">
         </div>
-    </section>
+        <div class="reveal-text">
+            <h2>Weekly: The Perfect Stack (Tetris)</h2>
+            <p>Susun jadwal Anda pelan-pelan namun sempurna. Di Level Weekly, kunci utamanya adalah optimalisasi ruang waktu. Selesaikan satu Main Quest untuk membersihkan satu baris beban minggu ini.</p>
+        </div>
+    </div>
 
-    <section class="faq">
-        <h2>F.A.Q</h2>
-        <div class="faq-item">
-            <strong>Mengapa KOROSOFT?</strong>
-            <p>Karena dunia ini seringkali illogical. Kami membangun nalar teknis untuk bertahan.</p>
+    <div class="reveal">
+        <div class="reveal-gif">
+            <img src="path/ke/daily-action-grind.gif" alt="Daily Action Grind">
         </div>
-        <div class="faq-item">
-            <strong>Apa itu DQ System?</strong>
-            <p>Digital Quotient adalah variabel ukur performa mental dalam ekosistem ini.</p>
+        <div class="reveal-text">
+            <h2>Daily: The Consistent Grind (Action)</h2>
+            <p>Setiap hari adalah latihan konsistensi. Bangun performa Digital Quotient (DQ) Anda dengan repetisi yang terukur. Porsi 60% : 40% menjaga Anda tetap terlatih tanpa 'overheat'.</p>
         </div>
-        <div class="faq-item">
-            <strong>Siapa itu Fal?</strong>
-            <p>Seorang creator yang berdiri sendirian di Level 3 ekosistemnya sendiri.</p>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <footer style="padding: 50px; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
-        © 2026 KOROSOFT | Managed by Fal
+
+    <footer>
+        © 2026 KOROSOFT | Managed by Fal | Intelektual Stabil, Mekanisme Berdaulat.
     </footer>
 
     <script>
-        // SCRIPT BUAT ANIMASI SLIDE
+        // SCRIPT BUAT ANIMASI SLIDE UP
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -191,6 +176,8 @@
             }
         }
         window.addEventListener("scroll", reveal);
+        // Jalankan sekali saat load
+        reveal();
     </script>
 
 </body>
