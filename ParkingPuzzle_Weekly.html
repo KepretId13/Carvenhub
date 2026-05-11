@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="id"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Puzzle</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'DM Sans', sans-serif; margin: 0; overflow: hidden; }
+    canvas { display: block; cursor: pointer; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full" style="min-height: calc(100 * min(var(--vh, 1vh), 1vh)); background: rgb(15, 23, 42);">
+  <div id="game-wrapper" class="relative w-full flex items-center justify-center" style="height: calc(100 * min(var(--vh, 1vh), 1vh));">
+   <canvas id="game"></canvas>
+   <div id="hud" class="absolute top-4 left-6 z-10 flex gap-4 items-center"><span data-template-id="level-label" class="canva-text text-lg" style="color: rgb(100, 116, 139); font-weight: 700; font-style: normal; font-size: 16px;">LEVEL</span> <span id="level-value" class="text-2xl font-bold" style="color:#fff;">1</span> <span data-template-id="moves-label" class="canva-text text-lg ml-4" style="color: rgb(100, 116, 139); font-weight: 700; font-style: normal; font-size: 16px;">LANGKAH</span> <span id="moves-value" class="text-2xl font-bold" style="color:#fff;">0</span> <span data-template-id="timer-label" class="canva-text text-lg ml-4" style="color: rgb(100, 116, 139); font-weight: 700; font-style: normal; font-size: 16px;">WAKTU</span> <span id="timer-value" class="text-2xl font-bold" style="color:#4ade80ff;">60</span>
+   </div>
+   <div id="overlay" class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20" style="background: rgba(10,20,40,0.85);">
+    <h1 data-template-id="game-title" class="canva-text text-5xl font-bold drop-shadow-lg" style="color: rgb(56, 189, 248); font-weight: 700; font-style: normal; font-size: 36px;">Parking Puzzle</h1>
+    <p data-template-id="game-instruction" class="canva-text text-xl text-center max-w-md px-4" style="color: rgb(148, 163, 184); font-weight: 700; font-style: normal; font-size: 16px;">Keluarkan semua kendaraan! Tap mobil/truk yang jalurnya bebas ke tepi untuk mengeluarkannya.</p><button data-template-id="start-button" class="canva-button px-8 py-3 rounded-xl text-lg font-bold shadow-lg hover:scale-105 transition-transform" id="start-btn" style="background: rgb(37, 99, 235); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">MULAI</button>
+   </div>
+   <div id="win-overlay" class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20 hidden" style="background: rgba(10,20,40,0.85);">
+    <h2 data-template-id="win-title" class="canva-text text-4xl font-bold drop-shadow-lg" style="color: rgb(74, 222, 128); font-weight: 700; font-style: normal; font-size: 28px;">BERHASIL! 🎉</h2>
+    <p id="win-msg" class="text-xl font-bold" style="color:#fff;"></p>
+    <p id="time-bonus-msg" class="text-lg font-bold" style="color:#4ade80ff;"></p><button data-template-id="next-button" class="canva-button px-8 py-3 rounded-xl text-lg font-bold shadow-lg hover:scale-105 transition-transform" id="next-btn" style="background: rgb(22, 163, 74); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">LEVEL BERIKUTNYA</button>
+   </div>
+  </div>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    let W, H, cellSize, gridX, gridY;
+    let COLS = 6, ROWS = 6;
+    let vehicles = [], level = 1, moves = 0, isRunning = false;
+    let animating = null; // {vehicle, progress, direction}
+    let timeLeft = 60, timerInterval = null;
+
+    const COLORS = ['#e63946','#457b9d','#2a9d8f','#e9c46a','#f4a261','#264653','#6a4c93','#1982c4','#8ac926','#ff595e'];
+
+    function resize() {
+      const wr = document.getElementById('game-wrapper');
+      W = canvas.width = wr.clientWidth;
+      H = canvas.height = wr.clientHeight;
+      cellSize = Math.min((W - 40) / COLS, (H - 100) / ROWS);
+      gridX = (W - cellSize * COLS) / 2;
+      gridY = (H - cellSize * ROWS) / 2 + 20;
+    }
+
+    function generateLevel(lvl) {
+      // Expand grid size every 5 levels
+      const gridExpansion = Math.floor(lvl / 5);
+      COLS = 6 + gridExpansion;
+      ROWS = 6 + gridExpansion;
+      
+      vehicles = [];
+      const grid = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+      const count = Math.min(6 + lvl * 2, 16 + gridExpansion * 4);
+      const trapCount = Math.min(2 + Math.floor(lvl / 2), 4);
+      let id = 1;
+      let attempts = 0;
+      while (vehicles.length < count && attempts < 500) {
+        attempts++;
+        const horizontal = Math.random() > 0.4;
+        const len = Math.random() > 0.5 ? 3 : 2;
+        const isTruck = len === 3;
+        let r, c;
+        if (horizontal) {
+          r = Math.floor(Math.random() * ROWS);
+          c = Math.floor(Math.random() * (COLS - len + 1));
+        } else {
+          r = Math.floor(Math.random() * (ROWS - len + 1));
+          c = Math.floor(Math.random() * COLS);
+        }
+        let fits = true;
+        for (let i = 0; i < len; i++) {
+          const cr = horizontal ? r : r + i;
+          const cc = horizontal ? c + i : c;
+          if (grid[cr][cc]) { fits = false; break; }
+        }
+        if (!fits) continue;
+        for (let i = 0; i < len; i++) {
+          const cr = horizontal ? r : r + i;
+          const cc = horizontal ? c + i : c;
+          grid[cr][cc] = id;
+        }
+        const isTrap = vehicles.length < trapCount && Math.random() > 0.5;
+        vehicles.push({ id, row: r, col: c, len, horizontal, isTruck, color: COLORS[(id - 1) % COLORS.length], removed: false, isTrap });
+        id++;
+      }
+    }
+
+    function canRemove(v) {
+      if (v.removed) return false;
+      // Check if vehicle is on edge and has clear path out
+      if (v.horizontal) {
+        // Can exit left?
+        if (v.col === 0) return true;
+        // Can exit right?
+        if (v.col + v.len === COLS) return true;
+        // Check if path to left edge is clear
+        let clearLeft = true;
+        for (let c = v.col - 1; c >= 0; c--) {
+          if (isOccupied(v.row, c, v.id)) { clearLeft = false; break; }
+        }
+        if (clearLeft) return true;
+        // Check if path to right edge is clear
+        let clearRight = true;
+        for (let c = v.col + v.len; c < COLS; c++) {
+          if (isOccupied(v.row, c, v.id)) { clearRight = false; break; }
+        }
+        if (clearRight) return true;
+      } else {
+        if (v.row === 0) return true;
+        if (v.row + v.len === ROWS) return true;
+        let clearUp = true;
+        for (let r = v.row - 1; r >= 0; r--) {
+          if (isOccupied(r, v.col, v.id)) { clearUp = false; break; }
+        }
+        if (clearUp) return true;
+        let clearDown = true;
+        for (let r = v.row + v.len; r < ROWS; r++) {
+          if (isOccupied(r, v.col, v.id)) { clearDown = false; break; }
+        }
+        if (clearDown) return true;
+      }
+      return false;
+    }
+
+    function isOccupied(row, col, excludeId) {
+      for (const v of vehicles) {
+        if (v.removed || v.id === excludeId) continue;
+        if (v.horizontal) {
+          if (v.row === row && col >= v.col && col < v.col + v.len) return true;
+        } else {
+          if (v.col === col && row >= v.row && row < v.row + v.len) return true;
+        }
+      }
+      return false;
+    }
+
+    function getExitDirection(v) {
+      if (v.horizontal) {
+        let clearLeft = true;
+        for (let c = v.col - 1; c >= 0; c--) { if (isOccupied(v.row, c, v.id)) { clearLeft = false; break; } }
+        if (clearLeft) return 'left';
+        return 'right';
+      } else {
+        let clearUp = true;
+        for (let r = v.row - 1; r >= 0; r--) { if (isOccupied(r, v.col, v.id)) { clearUp = false; break; } }
+        if (clearUp) return 'up';
+        return 'down';
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      // Draw parking lot background
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(gridX - 10, gridY - 10, cellSize * COLS + 20, cellSize * ROWS + 20);
+      // Grid lines
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      for (let r = 0; r <= ROWS; r++) {
+        ctx.beginPath(); ctx.moveTo(gridX, gridY + r * cellSize); ctx.lineTo(gridX + COLS * cellSize, gridY + r * cellSize); ctx.stroke();
+      }
+      for (let c = 0; c <= COLS; c++) {
+        ctx.beginPath(); ctx.moveTo(gridX + c * cellSize, gridY); ctx.lineTo(gridX + c * cellSize, gridY + ROWS * cellSize); ctx.stroke();
+      }
+      // Draw vehicles
+      for (const v of vehicles) {
+        if (v.removed) continue;
+        let x = gridX + v.col * cellSize + 4;
+        let y = gridY + v.row * cellSize + 4;
+        let vw = (v.horizontal ? v.len * cellSize : cellSize) - 8;
+        let vh = (v.horizontal ? cellSize : v.len * cellSize) - 8;
+
+        if (animating && animating.vehicle.id === v.id) {
+          const p = animating.progress;
+          const dist = cellSize * (v.horizontal ? COLS : ROWS) * p;
+          if (animating.direction === 'left') x -= dist;
+          else if (animating.direction === 'right') x += dist;
+          else if (animating.direction === 'up') y -= dist;
+          else y += dist;
+        }
+
+        // Highlight removable
+        const removable = canRemove(v);
+        if (removable && !animating) {
+          ctx.shadowColor = '#fff';
+          ctx.shadowBlur = 8;
+        }
+        ctx.fillStyle = v.color;
+        ctx.beginPath();
+        const rad = 6;
+        ctx.moveTo(x + rad, y); ctx.lineTo(x + vw - rad, y); ctx.quadraticCurveTo(x + vw, y, x + vw, y + rad);
+        ctx.lineTo(x + vw, y + vh - rad); ctx.quadraticCurveTo(x + vw, y + vh, x + vw - rad, y + vh);
+        ctx.lineTo(x + rad, y + vh); ctx.quadraticCurveTo(x, y + vh, x, y + vh - rad);
+        ctx.lineTo(x, y + rad); ctx.quadraticCurveTo(x, y, x + rad, y);
+        ctx.closePath(); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Vehicle detail - windows
+        ctx.fillStyle = 'rgba(0,0,0,0.3)';
+        if (v.horizontal) {
+          ctx.fillRect(x + 6, y + 4, vw * 0.3, vh - 8);
+          if (v.isTruck) { ctx.fillRect(x + vw * 0.5, y + 4, vw * 0.3, vh - 8); }
+        } else {
+          ctx.fillRect(x + 4, y + 6, vw - 8, vh * 0.3);
+          if (v.isTruck) { ctx.fillRect(x + 4, y + vh * 0.5, vw - 8, vh * 0.3); }
+        }
+        
+        // Trap indicator - skull pattern
+        if (v.isTrap) {
+          ctx.fillStyle = '#ff1493';
+          ctx.font = 'bold 10px DM Sans';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('⚠️', x + vw * 0.5, y + vh * 0.5);
+        }
+        
+        // Front/back indicator - headlight and taillight effect
+        ctx.fillStyle = '#ffff00';
+        if (v.horizontal) {
+          // Front (right side) - yellow headlight
+          ctx.beginPath();
+          ctx.arc(x + vw - 3, y + vh * 0.25, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x + vw - 3, y + vh * 0.75, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          // Back (left side) - red taillight
+          ctx.fillStyle = '#ff4444';
+          ctx.beginPath();
+          ctx.arc(x + 3, y + vh * 0.25, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x + 3, y + vh * 0.75, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Front (bottom) - yellow headlight
+          ctx.beginPath();
+          ctx.arc(x + vw * 0.25, y + vh - 3, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x + vw * 0.75, y + vh - 3, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          // Back (top) - red taillight
+          ctx.fillStyle = '#ff4444';
+          ctx.beginPath();
+          ctx.arc(x + vw * 0.25, y + 3, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x + vw * 0.75, y + 3, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        // Label
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px DM Sans';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(v.isTruck ? '🚛' : '🚗', x + vw/2, y + vh/2);
+      }
+    }
+
+    function handleClick(e) {
+      if (!isRunning || animating) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+      const col = Math.floor((mx - gridX) / cellSize);
+      const row = Math.floor((my - gridY) / cellSize);
+      if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return;
+
+      for (const v of vehicles) {
+        if (v.removed) continue;
+        let hit = false;
+        if (v.horizontal && v.row === row && col >= v.col && col < v.col + v.len) hit = true;
+        if (!v.horizontal && v.col === col && row >= v.row && row < v.row + v.len) hit = true;
+        if (hit) {
+          if (v.isTrap) {
+            // Trap vehicles can be removed by clicking them
+            removeVehicle(v);
+          } else if (canRemove(v)) {
+            removeVehicle(v);
+          } else {
+            // Wrong click penalty
+            timeLeft -= 10;
+            if (timeLeft < 0) timeLeft = 0;
+            document.getElementById('timer-value').textContent = timeLeft;
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+              isRunning = false;
+              level = 0;
+              document.getElementById('level-value').textContent = level;
+              document.getElementById('win-msg').textContent = 'Waktu habis! Game Over!';
+              document.getElementById('time-bonus-msg').textContent = '';
+              document.getElementById('win-overlay').classList.remove('hidden');
+            }
+          }
+          return;
+        }
+      }
+    }
+
+    function removeVehicle(v) {
+      const dir = getExitDirection(v);
+      animating = { vehicle: v, progress: 0, direction: dir };
+      moves++;
+      document.getElementById('moves-value').textContent = moves;
+      function animate() {
+        animating.progress += 0.06;
+        draw();
+        if (animating.progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          v.removed = true;
+          animating = null;
+          draw();
+          checkWin();
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function checkWin() {
+      if (vehicles.every(v => v.removed)) {
+        isRunning = false;
+        if (timerInterval) clearInterval(timerInterval);
+        timeLeft += 30; // Add 30 seconds for next level
+        document.getElementById('win-msg').textContent = `Level ${level} selesai dalam ${moves} langkah!`;
+        document.getElementById('time-bonus-msg').textContent = `+30 detik! Total waktu: ${timeLeft}s`;
+        document.getElementById('win-overlay').classList.remove('hidden');
+      }
+    }
+
+    canvas.addEventListener('pointerdown', handleClick);
+    document.getElementById('start-btn').addEventListener('click', startGame);
+    document.getElementById('next-btn').addEventListener('click', nextLevel);
+
+    function startGame() {
+      level = 1; moves = 0; timeLeft = 60;
+      document.getElementById('level-value').textContent = level;
+      document.getElementById('moves-value').textContent = moves;
+      document.getElementById('timer-value').textContent = timeLeft;
+      document.getElementById('overlay').classList.add('hidden');
+      document.getElementById('win-overlay').classList.add('hidden');
+      resize();
+      generateLevel(level);
+      isRunning = true;
+      startTimer();
+      draw();
+    }
+
+    function nextLevel() {
+      level++; moves = 0; timeLeft = 60;
+      document.getElementById('level-value').textContent = level;
+      document.getElementById('moves-value').textContent = moves;
+      document.getElementById('timer-value').textContent = timeLeft;
+      document.getElementById('timer-value').style.color = '#4ade80';
+      document.getElementById('win-overlay').classList.add('hidden');
+      generateLevel(level);
+      isRunning = true;
+      startTimer();
+      draw();
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer-value').textContent = timeLeft;
+        
+        // Update color based on time
+        const timerEl = document.getElementById('timer-value');
+        if (timeLeft <= 10) {
+          timerEl.style.color = '#ef4444';
+        } else if (timeLeft <= 20) {
+          timerEl.style.color = '#f97316';
+        } else {
+          timerEl.style.color = '#4ade80';
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          isRunning = false;
+          level = 0;
+          document.getElementById('level-value').textContent = level;
+          document.getElementById('win-msg').textContent = 'Waktu habis! Game Over!';
+          document.getElementById('time-bonus-msg').textContent = '';
+          document.getElementById('win-overlay').classList.remove('hidden');
+        }
+      }, 1000);
+    }
+
+    window.addEventListener('resize', () => { resize(); if (isRunning) draw(); });
+    resize();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fa0ce0f0316fd2d',t:'MTc3ODQ5ODUzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
