@@ -1,37 +1,59 @@
-<div class="system-wrapper">
-    <nav class="system-sidebar">
-        <div class="sys-title">U8-OS</div>
-        <ul class="sys-menu">
-            <li class="active">Beranda</li>
-            <li>Main</li>
-            <li>Aturan</li>
-            <li>Experimental</li>
-        </ul>
-        <div class="sys-footer">
-            <p>User: Admin</p>
-            <p>Sync: [Failed]</p>
-        </div>
-    </nav>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U8-OS | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <main class="system-content">
-        <header class="sys-header">
-            <h1>MAIN SYSTEM</h1>
-            <div class="sys-status">0x0738530 ERR</div>
-        </header>
-
-        <div class="content-body">
-            <div class="primary-info">
-                <h2>Bencana Bintang</h2>
-                <p>Bertahan dari chaos langit...</p>
-                <div class="game-preview"></div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="brand">U8-OS</div>
+            <ul class="menu">
+                <li class="active"><a href="index.html">Beranda</a></li>
+                <li><a href="#">Main</a></li>
+                <li><a href="#">Aturan</a></li>
+                <li><a href="#">Experimental</a></li>
+            </ul>
+            <div class="system-logs">
+                <p>User: Admin</p>
+                <p>Status: 0x0738530 ERR</p>
             </div>
+        </nav>
 
-            <aside class="secondary-info">
-                <div class="info-card">
-                    <h3>DOMAIN :</h3>
-                    <p>Status: Limited Access</p>
+        <main class="main-content">
+            <header class="page-header">
+                <h1>BERANDA</h1>
+            </header>
+
+            <section class="content-body">
+                <div class="primary-zone">
+                    <h2>MODE > MAIN STORY</h2>
+                    <p>Masuk ke pengalaman utama. Pilihan lu bakal ngaruh ke alur dan ending.</p>
+                    
+                    <div class="game-card">
+                        <div class="placeholder-img">ASET GAME DI SINI</div>
+                        <h3>Bencana Bintang</h3>
+                    </div>
                 </div>
-            </aside>
-        </div>
-    </main>
-</div>
+
+                <aside class="info-zone">
+                    <div class="info-box">
+                        <div class="box-label">DOMAIN :</div>
+                        <p>Status: Limited Access</p>
+                        <p>Network: Restricted</p>
+                    </div>
+                    <div class="info-box accent">
+                        <div class="box-label">QUICK INFO :</div>
+                        <p>Genre: Horror, Sci-fi</p>
+                        <p>Mode: Singleplayer</p>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
