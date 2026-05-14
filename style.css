@@ -1,221 +1,70 @@
-<style>
-:root { --accent: #00ffcc; --bg: #0b0b0b; --card: #141414; }
-* { box-sizing: border-box; }
-body { background: var(--bg); 
-      color: #e0e0e0; 
-      font-family: 'Segoe UI', 
-          sans-serif; margin: 0; overflow-x: hidden; }
- 
-/* Sidebar Slide Logic */
-.sidebar { 
-    height: 100%; 
-    width: 250px; 
-    position: fixed; 
-    z-index: 2500; 
-    top: 0; 
-    left: -250px; 
-    background: #0f0f0f; 
-    transition: 0.4s ease; 
-    padding: 25px; 
-    border-right: 1px solid #222; 
-}
-.sidebar.active { left: 0; }
-.overlay { 
-    display: none; 
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.7); 
-    z-index: 2000; 
-    top: 0; 
+/* UNIVERSE8 CORE STYLE */
+:root {
+    --bg: #000000;
+    --panel: #0a0a0a;
+    --border: #222222;
+    --text: #ffffff;
+    --dim: #777777;
+    --accent: #38bdf8;
 }
 
-/* Top Nav & Search Area */
-.top-nav { 
-    width: 100%; 
-    background: #0f0f0f; 
-    padding: 15px 25px; 
-    display: flex; 
-    align-items: center; 
-    border-bottom: 1px solid #222; 
-    position: sticky; 
-    top: 0; 
-    z-index: 1000; 
-}
-.menu-btn { 
-    font-size: 24px; 
-    cursor: pointer; 
-    color: var(--accent); 
-    margin-right: 20px; 
-}
-.search-area { 
-    display: flex; 
-    gap: 10px; 
-    flex-wrap: wrap; 
-}
-.search-bar, 
-.filter-select { 
-    background: #1a1a1a; 
-    border: 1px solid #333; 
-    color: #fff; 
-    padding: 10px; 
-    border-radius: 6px; 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
 }
 
-/* Main Grid */
-.main-content { 
-    padding: 40px 20px; 
-      .header-bar {
+.container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px; /* Ini kunci buat ngasih jarak ke gambar di bawahnya */
-    flex-wrap: wrap;
-    gap: 20px;
+    min-height: 100vh;
 }
 
-/* Biar judulnya nggak kegedean di mata */
-.header-bar h1 {
-    font-size: 1.5em;
-    margin: 0;
-    color: var(--accent);
-}}
-.catalog-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-    gap: 25px; 
-}
-.item-card { 
-    background: var(--card); 
-    border-radius: 8px; border: 1px solid #222; 
-    overflow: hidden; cursor: pointer; 
-    transition: 0.3s; 
-}
-.item-card:hover { 
-    border-color: var(--accent); 
-    transform: translateY(-5px); 
+/* SIDEBAR LOGIC */
+.sidebar {
+    width: 250px;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
-.item-card {
-  opacity: 0; /* Sembunyi dulu */
-  animation: fadeInUp 0.5s ease forwards; /* Pake keyframes yang tadi */
+.brand { font-size: 1.5rem; font-weight: bold; margin-bottom: 40px; color: var(--accent); }
+
+.menu { list-style: none; flex-grow: 1; }
+.menu li { margin-bottom: 15px; }
+.menu li a { color: var(--dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+.menu li.active a, .menu li a:hover { color: var(--text); border-left: 3px solid var(--text); padding-left: 10px; }
+
+.system-logs { font-size: 0.7rem; color: #444; border-top: 1px solid var(--border); padding-top: 20px; }
+
+/* MAIN CONTENT LOGIC */
+.main-content { flex: 1; padding: 50px; }
+
+.page-header h1 { font-size: 4rem; letter-spacing: -3px; margin-bottom: 40px; border-bottom: 5px solid var(--text); display: inline-block; }
+
+.content-body { display: flex; gap: 40px; }
+.primary-zone { flex: 2; }
+.info-zone { flex: 1; }
+
+h2 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); }
+p { color: var(--dim); line-height: 1.5; margin-bottom: 20px; }
+
+.info-box { background: #050505; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; }
+.box-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 10px; background: #222; display: inline-block; padding: 2px 8px; }
+
+.game-card { background: #111; border: 1px solid var(--border); padding: 15px; margin-top: 20px; }
+.placeholder-img { width: 100%; height: 200px; background: #222; display: flex; align-items: center; justify-content: center; color: #444; margin-bottom: 10px; }
+
+/* MOBILE RESPONSIVE (NO MATA SIPIT) */
+@media (max-width: 900px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    .content-body { flex-direction: column; }
+    .main-content { padding: 20px; }
+    .page-header h1 { font-size: 2.5rem; }
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-.item-img { 
-      width: 100%; 
-      height: auto; 
-      display: block; 
-      object-fit: contain; 
-      background: #000; 
-}
-
-.skeleton-card {
-  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-  background-size: 200% 100%;
-  animation: loading-shimmer 1.5s infinite;
-}
-
-.item-info { 
-      padding: 15px; 
-}
-
-.badge { 
-    color: var(--accent); 
-    font-size: 0.7em; 
-    border: 1px solid var(--accent); 
-    padding: 2px 6px; 
-    border-radius: 4px; 
-}
-
-/* HP Optimization (Dual Column) */
-@media (max-width: 768px) {
-    .catalog-grid { grid-template-columns: 1fr 1fr !important; gap: 12px; }
-    .item-info { padding: 8px; }
-    .item-title { font-size: 0.8em; }
-}
-
-/* Modal */
-.modal { 
-    display: none; 
-    position: fixed; 
-    z-index: 3000; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.9); 
-    overflow-y: auto; 
-}
-.modal-content { 
-    background: #141414; 
-    margin: 5% auto; 
-    padding: 25px; 
-    width: 90%; 
-    max-width: 800px; 
-    border-radius: 10px; 
-    border: 1px solid #333; 
-    position: relative; 
-}
-.modal-body { 
-    display: flex; 
-    gap: 20px; 
-    flex-wrap: wrap; 
-}
-#modalImg { 
-    max-width: 350px; 
-    width: 100%; 
-    height: auto; 
-}
-.btn-buy { 
-    background: var(--accent); 
-    color: #000; 
-    padding: 12px 25px; 
-    text-decoration: none; 
-    border-radius: 4px; 
-    font-weight: bold; 
-    display: inline-block; 
-    margin-top: 15px; 
-}
-.close { 
-    position: absolute; 
-    right: 20px; 
-    top: 15px; 
-    font-size: 28px; 
-    cursor: pointer; 
-}
-
-/* Kita ganti nama biar ga bingung */
-@keyframes carvenShowUp {
-  from {
-    opacity: 0;
-    transform: scale(0.95); /* Mulai dari ukuran 95% (ngecil dikit) */
-  }
-  to {
-    opacity: 1;
-    transform: scale(1); /* Kembali ke ukuran asli */
-  }
-}
-
-.item-card {
-  /* ... styling grid/flex lu yang lama ... */
-  opacity: 0; /* Sembunyiin dulu wajib! */
-  animation: carvenShowUp 0.4s ease-out forwards; /* forwards biar opacity ttp 1 after anim */
-  
-  /* Tambahin ini biar ga nabrak layout lain pas anim */
-  backface-visibility: hidden;
-  will-change: opacity, transform;
-}
-
-.item-card {
-  /* ... styling lama lu ... */
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Efek slide smooth */
-  position: relative;
-}
-
-
-</style>
