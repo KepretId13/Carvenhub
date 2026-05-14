@@ -1,185 +1,37 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOROSOFT | Fal Independent Creator Universe</title>
-    <style>
-        :root {
-            --bg: #0d1117;
-            --card-bg: #161b22;
-            --border: #30363d;
-            --accent: #58a6ff;
-            --text: #c9d1d9;
-            --text-muted: #8b949e;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* 1. HERO SECTION (Header Minimalis di Atas) */
-        header {
-            text-align: center;
-            padding: 80px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        h1 { color: var(--accent); font-size: 3rem; letter-spacing: 5px; margin: 0; }
-        .version { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); }
-        
-        .hero-desc { max-width: 600px; margin: 30px auto; color: var(--text-muted); font-size: 1rem; }
-
-        .nav-section { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
-        .nav-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 12px 30px;
-            color: var(--text);
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .nav-btn:hover { border-color: var(--accent); background: #21262d; transform: translateY(-3px); }
-
-        /* 2. SHOWCASE SECTION (Storytelling Scroll) */
-        .showcase {
-            padding: 150px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .reveal {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            margin-bottom: 180px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .reveal-gif {
-            flex: 1;
-            max-width: 450px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: #090c10;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .reveal-gif img {
-            width: 100%;
-            display: block;
-        }
-
-        .reveal-text {
-            flex: 1;
-        }
-
-        .reveal-text h2 { color: var(--accent); font-size: 1.8rem; margin-top: 0; }
-        .reveal-text p { color: var(--text-muted); line-height: 1.7; font-size: 1rem; }
-
-        /* 3. FOOTER */
-        footer {
-            padding: 50px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            border-top: 1px solid var(--border);
-        }
-
-        @media (max-width: 768px) {
-            .reveal { flex-direction: column; gap: 30px; text-align: center; }
-            .reveal:nth-child(even) { flex-direction: column; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>KOROSOFT</h1>
-        <div class="version">v.0.1.0-PF | Independent Creator Universe</div>
-        <p class="hero-desc">Saya adalah Fal, kreator yang membangun ekosistem digital mandiri untuk menjaga stabilitas nalar di tengah dunia yang tak masuk akal.</p>
-        
-        <nav class="nav-section">
-            <a href="design.html" class="nav-btn">📁 Buka Planner List</a>
-            <a href="ost.html" class="nav-btn">🎵 Jelajahi OST List</a>
-        </nav>
-        <p style="margin-top: 50px; color: var(--text-muted); font-size: 0.8rem;">Scroll kebawah untuk eksplorasi mekanisme ↓</p>
-    </header>
-
-<section class="showcase">
-    
-    <div class="reveal">
-        <div class="reveal-gif">
-            <img src="path/ke/space-invaders-monthly.gif" alt="Space Invaders Monthly Defense">
-            <a href="ParkingPuzzle_Weekly.html">
+<div class="system-wrapper">
+    <nav class="system-sidebar">
+        <div class="sys-title">U8-OS</div>
+        <ul class="sys-menu">
+            <li class="active">Beranda</li>
+            <li>Main</li>
+            <li>Aturan</li>
+            <li>Experimental</li>
+        </ul>
+        <div class="sys-footer">
+            <p>User: Admin</p>
+            <p>Sync: [Failed]</p>
         </div>
-        <div class="reveal-text">
-            <h2>Monthly: The Alien Invasion (1978)</h2>
-            <p>Gempuran tugas adalah invasi alien yang tak pernah berhenti. Gunakan Monthly Defense sebagai perisai dan tembakan untuk melarutkan gempuran tersebut sebelum mereka menghancurkan pertahanan mental Anda.</p>
+    </nav>
+
+    <main class="system-content">
+        <header class="sys-header">
+            <h1>MAIN SYSTEM</h1>
+            <div class="sys-status">0x0738530 ERR</div>
+        </header>
+
+        <div class="content-body">
+            <div class="primary-info">
+                <h2>Bencana Bintang</h2>
+                <p>Bertahan dari chaos langit...</p>
+                <div class="game-preview"></div>
+            </div>
+
+            <aside class="secondary-info">
+                <div class="info-card">
+                    <h3>DOMAIN :</h3>
+                    <p>Status: Limited Access</p>
+                </div>
+            </aside>
         </div>
-    </div>
-
-    <div class="reveal">
-        <div class="reveal-gif">
-            <img src="path/ke/tetris-weekly.gif" alt="Tetris Weekly Attack">
-        </div>
-        <div class="reveal-text">
-            <h2>Weekly: The Perfect Stack (Tetris)</h2>
-            <p>Susun jadwal Anda pelan-pelan namun sempurna. Di Level Weekly, kunci utamanya adalah optimalisasi ruang waktu. Selesaikan satu Main Quest untuk membersihkan satu baris beban minggu ini.</p>
-        </div>
-    </div>
-
-    <div class="reveal">
-        <div class="reveal-gif">
-            <img src="path/ke/daily-action-grind.gif" alt="Daily Action Grind">
-        </div>
-        <div class="reveal-text">
-            <h2>Daily: The Consistent Grind (Action)</h2>
-            <p>Setiap hari adalah latihan konsistensi. Bangun performa Digital Quotient (DQ) Anda dengan repetisi yang terukur. Porsi 60% : 40% menjaga Anda tetap terlatih tanpa 'overheat'.</p>
-        </div>
-    </div>
-</section>
-
-
-    <footer>
-        © 2026 KOROSOFT | Managed by Fal | Intelektual Stabil, Mekanisme Berdaulat.
-    </footer>
-
-    <script>
-        // SCRIPT BUAT ANIMASI SLIDE UP
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        // Jalankan sekali saat load
-        reveal();
-    </script>
-
-</body>
-</html>
+    </main>
+</div>
