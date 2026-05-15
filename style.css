@@ -224,3 +224,18 @@ body {
 
 .dot.active { background: var(--text); box-shadow: 0 0 10px #fff; }
 
+/* Efek Kursor Ngetik */
+#sub-title::after, #main-title::after {
+    content: '|';
+    animation: blink 0.7s infinite;
+    margin-left: 5px;
+    color: var(--accent);
+}
+
+@keyframes blink {
+    54% { opacity: 1; }
+    55% { opacity: 0; }
+    99% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
