@@ -56,3 +56,25 @@ function toggleSidebar() {
 
 // 4. JALANKAN SISTEM
 window.addEventListener('DOMContentLoaded', initSystem);
+
+// Tambahkan fungsi modal di script.js lu
+function openDesignMenu(title) {
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('design-modal').style.display = 'block';
+    
+    // Lu bisa atur link spesifik di sini nantinya
+    document.getElementById('link-etsy').href = "https://etsy.com/...";
+    document.getElementById('link-lynk').href = "https://lynk.id/...";
+}
+
+function closeModal() {
+    document.getElementById('design-modal').style.display = 'none';
+}
+
+// Di dalam initSystem(), pastikan urutannya pas:
+// ... (setelah typing selesai)
+await new Promise(res => setTimeout(res, 1000));
+document.body.classList.add('system-ready'); // Sidebar slide
+
+await new Promise(res => setTimeout(res, 2000));
+document.body.classList.add('content-up'); // Welcome naik & Lobby muncul
