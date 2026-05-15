@@ -1,7 +1,7 @@
 const subTitle = document.getElementById('sub-title');
 const mainTitle = document.getElementById('main-title');
 
-// 1. FUNGSI DASAR (Ketik & Hapus)
+// FUNGSI KETIK (Wajib Async)
 async function typeEffect(element, text, speed = 80) {
     if (!element) return;
     for (let i = 0; i <= text.length; i++) {
@@ -10,6 +10,7 @@ async function typeEffect(element, text, speed = 80) {
     }
 }
 
+// FUNGSI HAPUS (Wajib Async)
 async function backspaceEffect(element, speed = 40) {
     if (!element) return;
     let text = element.innerHTML;
@@ -19,62 +20,27 @@ async function backspaceEffect(element, speed = 40) {
     }
 }
 
-// 2. SEQUENCE UTAMA (Hanya Satu initSystem)
+// MESIN UTAMA (Wajib Async)
 async function initSystem() {
-    console.log("System Initializing...");
-
-    // Phase 1: Subtitle sequence
+    // TAHAP 1: Typing
     await typeEffect(subTitle, "PROJECT_U8", 100);
-    await new Promise(res => setTimeout(res, 1200));
+    await new Promise(res => setTimeout(res, 1000));
     await backspaceEffect(subTitle, 50);
     await typeEffect(subTitle, "QUEST PLANNER ECOSYSTEM", 60);
 
-    // Phase 2: Main title sequence
-    await new Promise(res => setTimeout(res, 300));
     await typeEffect(mainTitle, "THE ARCHIVE.", 100);
     await new Promise(res => setTimeout(res, 2000));
     await backspaceEffect(mainTitle, 60);
     await typeEffect(mainTitle, "WELCOME.", 150);
 
-    // Phase 3: Trigger Animation (Sidebar & Content Shift)
-    await new Promise(res => setTimeout(res, 1000)); // Jeda bentar biar user baca "Welcome"
+    // TAHAP 2: Geser Sidebar
+    await new Promise(res => setTimeout(res, 1000));
     document.body.classList.add('system-ready');
-    
-    console.log("System Initialized: Sidebar & Content Synced.");
+
+    // TAHAP 3: Welcome Naik & Lobby Muncul
+    await new Promise(res => setTimeout(res, 2000));
     document.body.classList.add('content-up');
 }
 
-// 3. MOBILE TRIGGER (Toggle Sidebar)
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const trigger = document.querySelector('.menu-trigger');
-    if (!sidebar || !trigger) return;
-
-    sidebar.classList.toggle('active');
-    trigger.innerHTML = sidebar.classList.contains('active') ? "[ CLOSE ]" : "[ MENU ]";
-}
-
-// 4. JALANKAN SISTEM
+// JALANKAN (Tanpa Await di sini)
 window.addEventListener('DOMContentLoaded', initSystem);
-
-// Tambahkan fungsi modal di script.js lu
-function openDesignMenu(title) {
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('design-modal').style.display = 'block';
-    
-    // Lu bisa atur link spesifik di sini nantinya
-    document.getElementById('link-etsy').href = "https://etsy.com/...";
-    document.getElementById('link-lynk').href = "https://lynk.id/...";
-}
-
-function closeModal() {
-    document.getElementById('design-modal').style.display = 'none';
-}
-
-// Di dalam initSystem(), pastikan urutannya pas:
-// ... (setelah typing selesai)
-await new Promise(res => setTimeout(res, 1000));
-document.body.classList.add('system-ready'); // Sidebar slide
-
-await new Promise(res => setTimeout(res, 2000));
-document.body.classList.add('content-up'); // Welcome naik & Lobby muncul
