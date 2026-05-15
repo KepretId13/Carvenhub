@@ -1,44 +1,38 @@
-// Navigasi Buka/Tutup
-function toggleNav() {
-    const sideNav = document.getElementById("sideNav");
-    const overlay = document.getElementById("navOverlay");
-    sideNav.classList.toggle("active");
-    overlay.style.display = sideNav.classList.contains("active") ? "block" : "none";
-}
+const subTitle = document.getElementById('sub-title');
+const mainTitle = document.getElementById('main-title');
 
-// Buka Detail Modal
-function openDetail(el) {
-    document.getElementById('modalTitle').innerText = el.getAttribute('data-title');
-    document.getElementById('modalImg').src = el.getAttribute('data-img');
-    document.getElementById('modalDQ').innerText = el.getAttribute('data-dq');
-    document.getElementById('modalVibe').innerText = el.getAttribute('data-vibe');
-    document.getElementById('modalAbout').innerText = el.getAttribute('data-about');
-    document.getElementById('detailModal').style.display = "block";
-}
-
-// Tutup Modal
-function closeModal() {
-    document.getElementById('detailModal').style.display = "none";
-}
-
-// Sistem Filter Search & Difficulty
-function filterItems() {
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const diff = document.getElementById('difficultyFilter').value;
-    const cards = document.getElementsByClassName('item-card');
-
-    for (let card of cards) {
-        const title = card.getAttribute('data-title').toLowerCase();
-        const info = card.innerText;
-        const matchSearch = title.includes(search);
-        const matchDiff = diff === 'all' || info.includes(diff);
-        
-        card.style.display = (matchSearch && matchDiff) ? "block" : "none";
+// Fungsi dasar mengetik
+async function typeEffect(element, text, speed = 80) {
+    for (let i = 0; i <= text.length; i++) {
+        element.innerHTML = text.substring(0, i);
+        await new Promise(res => setTimeout(res, speed));
     }
 }
 
-// Event Klik Area Luar (Overlay)
-window.onclick = (e) => {
-    if (e.target.id === 'detailModal') closeModal();
-    if (e.target.id === 'navOverlay') toggleNav();
+// Fungsi dasar menghapus
+async function backspaceEffect(element, speed = 40) {
+    let text = element.innerHTML;
+    for (let i = text.length; i >= 0; i--) {
+        element.innerHTML = text.substring(0, i);
+        await new Promise(res => setTimeout(res, speed));
+    }
 }
+
+// Sequence Inisialisasi Sistem
+async function initSystem() {
+    // Phase 1: Subtitle sequence
+    await typeEffect(subTitle, "PROJECT_U8", 100);
+    await new Promise(res => setTimeout(res, 1200));
+    await backspaceEffect(subTitle, 50);
+    await typeEffect(subTitle, "QUEST PLANNER ECOSYSTEM", 60);
+
+    // Phase 2: Main title sequence
+    await new Promise(res => setTimeout(res, 300)); // Delay dikit biar natural
+    await typeEffect(mainTitle, "THE ARCHIVE.", 100);
+    await new Promise(res => setTimeout(res, 2000));
+    await backspaceEffect(mainTitle, 60);
+    await typeEffect(mainTitle, "WELCOME.", 150);
+}
+
+// Jalankan saat semua aset sudah siap
+window.addEventListener('DOMContentLoaded', initSystem);
