@@ -239,3 +239,68 @@ body {
     100% { opacity: 1; }
 }
 
+/* Sidebar Styling */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #050505; /* Hitam lebih dalem */
+    border-right: 1px solid #111;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+}
+
+.brand {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    padding-left: 10px;
+}
+
+/* Grouping Category */
+.nav-group {
+    margin-bottom: 30px;
+}
+
+.group-label {
+    font-size: 0.65rem;
+    color: #444; /* Warna redup biar gak ganggu mata */
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 5px;
+}
+
+.sidebar ul li a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 10px;
+    display: block;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.sidebar ul li a:hover, .sidebar ul li.active a {
+    color: #fff;
+    background: #111;
+    padding-left: 15px; /* Efek geser dikit pas hover */
+}
+
+.sys-footer {
+    margin-top: auto;
+    font-size: 0.6rem;
+    color: #222;
+    padding-left: 10px;
+}
