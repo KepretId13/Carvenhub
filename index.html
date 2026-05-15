@@ -39,30 +39,46 @@
         </div>
     </nav>
 
-    <main class="main-content">
+        <main class="main-content">    
         <section class="hero">
-            <p id="sub-title"></p>
-            <h1 id="main-title"></h1>
-        </section>
+        <p id="sub-title"></p>
+        <h1 id="main-title"></h1>        
+    </section>
+            
+            <div class="lobby-container">
+                
+                
+                <div class="lobby-column">
+                <span class="group-label">0x01 / ARCHIVE_OST</span>
+                    <div class="shapes-grid" id="ost-list">
+                        <a href="https://youtube.com/topic/id1" target="_blank" class="shape-item ost-style">01</a>
+                        <a href="https://youtube.com/topic/id2" target="_blank" class="shape-item ost-style">02</a>
+                        </div>
+                    </div>
+                
 
-        <section>
-            <div class="lobby-layout">
-            <div class="list-container">
-            <span class="group-label">LATEST_DESIGNS [1-10]</span>
-            <ul class="item-list">
-                <li>01. Nebula_Shield.psd</li>
-                <li>02. Void_Runner_UI.fig</li>
-            </ul>
-        </div>
+                    <div class="lobby-column">
+                        
+                        <span class="group-label">0x02 / ARCHIVE_DESIGN</span>
+                        <div class="shapes-grid">
+                            
+                            <div class="shape-item design-style" onclick="openDesignMenu('Design 01')">01</div>
+                            <div class="shape-item design-style" onclick="openDesignMenu('Design 02')">02</div>
+                        </div>
+                    </div>
+                </div> 
+            </nav>
 
-            <div class="list-container">
-                <span class="group-label">RECENT_OST [1-10]</span>
-                <ul class="item-list">
-                    <li>01. Star_Collapse.mp3</li>
-                    <li>02. Silent_Observer.wav</li>
-                    </ul>
+                <div id="design-modal" class="modal">
+                    <div class="modal-content">
+                        <h3 id="modal-title">DESIGN_OPTIONS</h3>
+                        <div class="modal-buttons">
+                            <a href="#" id="link-etsy" target="_blank">ETSY_STORE</a>
+                            <a href="#" id="link-lynk" target="_blank">LYNK_ID</a>
+                            <button onclick="closeModal()">[ CLOSE ]</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </section>
     </main>
     <script src="script.js"></script>
