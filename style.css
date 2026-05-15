@@ -148,3 +148,79 @@ body { background: var(--bg); color: var(--text-main); font-family: 'Inter', san
     .main-content { margin-left: 0; padding: 40px 20px; }
     .hero-section h1 { font-size: 2.8rem; }
 }
+
+:root {
+    --bg: #000000;
+    --text: #ffffff;
+    --sub: #666666;
+    --accent: #38bdf8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Inter', sans-serif; 
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Animasi Fade In Up */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0; /* Standby sebelum animasi */
+}
+
+/* Layout */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+}
+
+.hero p { color: var(--accent); letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 10px; }
+.hero h1 { font-size: 5rem; font-weight: 900; letter-spacing: -2px; line-height: 0.8; }
+
+.section-story {
+    padding: 100px 10%;
+    max-width: 900px;
+}
+
+.story-card {
+    background: #050505;
+    border: 1px solid #111;
+    padding: 40px;
+    margin-top: 50px;
+    transition: 0.5s;
+}
+
+.story-card:hover { border-color: var(--sub); }
+
+.sidebar-mini {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 100;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #222;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active { background: var(--text); box-shadow: 0 0 10px #fff; }
+
