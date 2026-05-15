@@ -112,12 +112,14 @@ body.system-ready .main-content {
 
 /* Teks welcome awalnya di tengah secara vertikal */
 .hero {
+    /* Kasih sedikit padding top biar pas naik gak nempel browser */
+    padding-top: 50px; 
     transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* Saat sistem ready dan standby 2 detik selesai, naikkan teks */
 body.content-up .hero {
-    transform: translateY(-35vh); /* Naik ke atas layar */
+    transform: translateY(-18vh); /* Naik ke atas layar */ /* Jangan pake -30vh, terlalu jauh. Pake -15vh atau -20vh aja */
 }
 
 /* Tahap 3: Lobby Grid */ /*-----------------------------------------------------------------------------------*/
