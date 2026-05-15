@@ -274,33 +274,25 @@ body {
     font-weight: bold;
 }
 
-.sidebar ul {
-    list-style: none;
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: rgba(5, 5, 5, 0.95); /* Kasih sedikit transparansi biar mewah */
+    border-right: 1px solid #111;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* Tetap di kiri tapi kita kasih margin ke konten */
+    z-index: 1000;
 }
 
-.sidebar ul li {
-    margin-bottom: 5px;
-}
-
-.sidebar ul li a {
-    color: #888;
-    text-decoration: none;
-    font-size: 0.8rem;
-    padding: 10px;
-    display: block;
-    border-radius: 4px;
-    transition: 0.2s;
-}
-
-.sidebar ul li a:hover, .sidebar ul li.active a {
-    color: #fff;
-    background: #111;
-    padding-left: 15px; /* Efek geser dikit pas hover */
-}
-
-.sys-footer {
-    margin-top: auto;
-    font-size: 0.6rem;
-    color: #222;
-    padding-left: 10px;
+/* Biar konten utama nggak ketutup sidebar di desktop */
+.main-content {
+    margin-left: 240px; 
+    width: calc(100% - 240px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5%;
 }
