@@ -318,3 +318,64 @@ body {
         margin-top: 20px;
     }
 }
+
+/* --- DESKTOP DEFAULT --- */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: #050505;
+    border-right: 1px solid #111;
+    padding: 40px 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+    z-index: 1000;
+}
+
+.main-content {
+    margin-left: 280px; /* Pas di pinggir sidebar */
+    min-height: 100vh;
+    display: flex;
+    align-items: center; /* Teks "Welcome" bakal sejajar sidebar */
+    padding-left: 50px; 
+}
+
+.menu-trigger { display: none; } /* Sembunyi di desktop */
+
+/* --- MOBILE LOGIC (Breakpoints) --- */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%); /* Ngumpet ke kiri */
+        width: 100%; /* Full screen pas dibuka */
+    }
+
+    .sidebar.active {
+        transform: translateX(0); /* Muncul pas di-trigger */
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-left: 20px;
+        width: 100%;
+    }
+
+    .menu-trigger {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        padding: 8px 15px;
+        font-family: 'Courier New', monospace;
+        z-index: 1100;
+        cursor: pointer;
+    }
+
+    /* Di mobile, Welcome bakal ketutup sidebar pas menu dibuka */
+    .hero h1 {
+        font-size: 3rem;
+    }
+}
