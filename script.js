@@ -1,31 +1,17 @@
 const subTitle = document.getElementById('sub-title');
 const mainTitle = document.getElementById('main-title');
 
-async function initSystem() {
-    // Sequence ngetik lu yang lama (Project_U8 -> Welcome)
-    await typeEffect(subTitle, "PROJECT_U8", 100);
-    // ... (dst sampai Welcome) ...
-    await typeEffect(mainTitle, "WELCOME.", 150);
-
-    // Tunggu 1 detik biar user bisa baca "Welcome" sebentar
-    await new Promise(res => setTimeout(res, 1000));
-
-    // TRIGGER ANIMASI BARENGAN
-    document.body.classList.add('system-ready');
-    
-    console.log("System Initialized: Sidebar & Content Synced.");
-}
-
-// Fungsi dasar mengetik
+// 1. FUNGSI DASAR (Ketik & Hapus)
 async function typeEffect(element, text, speed = 80) {
+    if (!element) return;
     for (let i = 0; i <= text.length; i++) {
         element.innerHTML = text.substring(0, i);
         await new Promise(res => setTimeout(res, speed));
     }
 }
 
-// Fungsi dasar menghapus
 async function backspaceEffect(element, speed = 40) {
+    if (!element) return;
     let text = element.innerHTML;
     for (let i = text.length; i >= 0; i--) {
         element.innerHTML = text.substring(0, i);
@@ -33,8 +19,10 @@ async function backspaceEffect(element, speed = 40) {
     }
 }
 
-// Sequence Inisialisasi Sistem
+// 2. SEQUENCE UTAMA (Hanya Satu initSystem)
 async function initSystem() {
+    console.log("System Initializing...");
+
     // Phase 1: Subtitle sequence
     await typeEffect(subTitle, "PROJECT_U8", 100);
     await new Promise(res => setTimeout(res, 1200));
@@ -42,26 +30,28 @@ async function initSystem() {
     await typeEffect(subTitle, "QUEST PLANNER ECOSYSTEM", 60);
 
     // Phase 2: Main title sequence
-    await new Promise(res => setTimeout(res, 300)); // Delay dikit biar natural
+    await new Promise(res => setTimeout(res, 300));
     await typeEffect(mainTitle, "THE ARCHIVE.", 100);
     await new Promise(res => setTimeout(res, 2000));
     await backspaceEffect(mainTitle, 60);
     await typeEffect(mainTitle, "WELCOME.", 150);
+
+    // Phase 3: Trigger Animation (Sidebar & Content Shift)
+    await new Promise(res => setTimeout(res, 1000)); // Jeda bentar biar user baca "Welcome"
+    document.body.classList.add('system-ready');
+    
+    console.log("System Initialized: Sidebar & Content Synced.");
 }
 
-// Jalankan saat semua aset sudah siap
-window.addEventListener('DOMContentLoaded', initSystem);
-
+// 3. MOBILE TRIGGER (Toggle Sidebar)
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const trigger = document.querySelector('.menu-trigger');
-    
+    if (!sidebar || !trigger) return;
+
     sidebar.classList.toggle('active');
-    
-    // Ganti teks tombol pas menu kebuka
-    if (sidebar.classList.contains('active')) {
-        trigger.innerHTML = "[ CLOSE ]";
-    } else {
-        trigger.innerHTML = "[ MENU ]";
-    }
+    trigger.innerHTML = sidebar.classList.contains('active') ? "[ CLOSE ]" : "[ MENU ]";
 }
+
+// 4. JALANKAN SISTEM
+window.addEventListener('DOMContentLoaded', initSystem);
