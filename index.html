@@ -45,29 +45,25 @@
         <h1 id="main-title"></h1>        
     </section>
             
-            <div class="lobby-container">
-                
-                
-                <div class="lobby-column">
-                <span class="group-label">0x01 / ARCHIVE_OST</span>
-                    <div class="shapes-grid" id="ost-list">
-                        <a href="https://youtube.com/topic/id1" target="_blank" class="shape-item ost-style">Blue Mist (Daily) Theme</a>
-                        <a href="https://youtube.com/topic/id2" target="_blank" class="shape-item ost-style">Blue Quiet (Weekly) Theme</a>
-                        </div>
-                    </div>
-                
+<div class="lobby-grid">
+    <div class="list-section">
+        <span class="group-label">DESIGN_ARCHIVE</span>
+        <ul class="shape-list">
+            <li style="transition-delay: 0.1s;"><a href="#" class="item-link" onclick="openDesignMenu('Design 01')">[01] UI_LAYOUT_REVISION</a></li>
+            <li style="transition-delay: 0.2s;"><a href="#" class="item-link" onclick="openDesignMenu('Design 02')">[02] CHARACTER_STUDY_01</a></li>
+            <li style="transition-delay: 0.3s;"><a href="#" class="item-link" onclick="openDesignMenu('Design 03')">[03] MOUNTAIN_PREVIEW</a></li>
+        </ul>
+    </div>
 
-                    <div class="lobby-column">
-                        
-                        <span class="group-label">0x02 / ARCHIVE_DESIGN</span>
-                        <div class="shapes-grid">
-                            
-                            <div class="shape-item design-style" onclick="openDesignMenu('Design 01')">Blue Mist</div>
-                            <div class="shape-item design-style" onclick="openDesignMenu('Design 02')">Blue Quiet</div>
-                        </div>
-                    </div>
-                </div> 
-            </nav>
+    <div class="list-section">
+        <span class="group-label">SOUND_ARCHIVE</span>
+        <ul class="shape-list">
+            <li style="transition-delay: 0.4s;"><a href="https://youtube.com/..." target="_blank" class="item-link">[01] THE_ARCHIVE_THEME</a></li>
+            <li style="transition-delay: 0.5s;"><a href="https://youtube.com/..." target="_blank" class="item-link">[02] BENCANA_BINTANG_OST</a></li>
+            <li style="transition-delay: 0.6s;"><a href="https://youtube.com/..." target="_blank" class="item-link">[03] SYSTEM_IDLE_AMBIENT</a></li>
+        </ul>
+    </div>
+</div>
 
                 <div id="design-modal" class="modal">
                     <div class="modal-content">
