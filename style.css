@@ -379,3 +379,28 @@ body {
         font-size: 3rem;
     }
 }
+
+/* Styling buat hirarki Dashboard */
+.child-menu {
+    list-style: none;
+    padding-left: 15px; /* Indentasi biar kelihatan menjorok */
+    margin-top: 5px;
+}
+
+.child-menu li a {
+    color: #555 !important; /* Warna lebih gelap dari menu utama */
+    font-size: 0.75rem !important;
+    padding: 5px 10px !important;
+    letter-spacing: 1px;
+}
+
+.child-menu li a:hover {
+    color: var(--accent) !important; /* Warna aksen pas di-hover */
+    background: transparent !important;
+}
+
+/* Biar teks DASHBOARD tetep tegas */
+.parent {
+    font-weight: bold;
+    color: #fff !important;
+}
