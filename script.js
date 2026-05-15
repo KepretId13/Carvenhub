@@ -36,3 +36,17 @@ async function initSystem() {
 
 // Jalankan saat semua aset sudah siap
 window.addEventListener('DOMContentLoaded', initSystem);
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const trigger = document.querySelector('.menu-trigger');
+    
+    sidebar.classList.toggle('active');
+    
+    // Ganti teks tombol pas menu kebuka
+    if (sidebar.classList.contains('active')) {
+        trigger.innerHTML = "[ CLOSE ]";
+    } else {
+        trigger.innerHTML = "[ MENU ]";
+    }
+}
