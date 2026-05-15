@@ -120,7 +120,7 @@ body.content-up .hero {
     transform: translateY(-35vh); /* Naik ke atas layar */
 }
 
-/* Tahap 3: Lobby Grid */
+/* Tahap 3: Lobby Grid */ /*-----------------------------------------------------------------------------------*/
 .lobby-layout {
     opacity: 0;
     transform: translateX(30px);
@@ -136,7 +136,7 @@ body.content-up .lobby-layout {
     transform: translateX(0);
 }
 
-/* TAHAP 3 ANIMASI */
+/* TAHAP 3 ANIMASI */ /*-----------------------------------------------------------------------------------*/
 .lobby-container {
     opacity: 0;
     display: flex;
@@ -172,7 +172,76 @@ body.content-up .lobby-container {
     color: var(--text);
 }
 
-/* Warna Aesthetic */
+/* Container untuk List Lobby */ /*-----------------------------------------------------------------------------------*/
+.lobby-grid {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.list-section {
+    flex: 1;
+}
+
+/* SHAPE BACKGROUND UNTUK ITEM */ /*-----------------------------------------------------------------------------------*/
+.shape-list {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.shape-list li {
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.5s ease;
+}
+
+/* Animasi muncul berurutan (Staggered) */ /*-----------------------------------------------------------------------------------*/
+body.content-up .shape-list li {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.item-link {
+    display: block;
+    background: rgba(255, 255, 255, 0.03); /* Shape Background */
+    border: 1px solid #1a1a1a;
+    padding: 15px 20px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+/* Efek Hover: Aesthetic Glow */ /*-----------------------------------------------------------------------------------*/
+.item-link:hover {
+    background: rgba(56, 189, 248, 0.05); /* Warna aksen tipis */
+    border-color: var(--accent);
+    color: #fff;
+    padding-left: 30px; /* Geser teks dikit */
+}
+
+/* Garis dekorasi di samping shape */ /*-----------------------------------------------------------------------------------*/
+.item-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: 0.3s;
+}
+
+.item-link:hover::before {
+    transform: scaleY(1);
+}
+
+
+/* Warna Aesthetic */ /*-----------------------------------------------------------------------------------*/
 .ost-style:hover {
     background: rgba(56, 189, 248, 0.1);
     border-color: var(--accent);
@@ -185,7 +254,7 @@ body.content-up .lobby-container {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-/* Modal Styling */
+/* Model Styling */ /*-----------------------------------------------------------------------------------*/
 .modal {
     display: none;
     position: fixed;
