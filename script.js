@@ -41,6 +41,7 @@ async function initSystem() {
     document.body.classList.add('system-ready');
     
     console.log("System Initialized: Sidebar & Content Synced.");
+    document.body.classList.add('content-up');
 }
 
 // 3. MOBILE TRIGGER (Toggle Sidebar)
