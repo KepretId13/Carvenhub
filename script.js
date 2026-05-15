@@ -1,6 +1,21 @@
 const subTitle = document.getElementById('sub-title');
 const mainTitle = document.getElementById('main-title');
 
+async function initSystem() {
+    // Sequence ngetik lu yang lama (Project_U8 -> Welcome)
+    await typeEffect(subTitle, "PROJECT_U8", 100);
+    // ... (dst sampai Welcome) ...
+    await typeEffect(mainTitle, "WELCOME.", 150);
+
+    // Tunggu 1 detik biar user bisa baca "Welcome" sebentar
+    await new Promise(res => setTimeout(res, 1000));
+
+    // TRIGGER ANIMASI BARENGAN
+    document.body.classList.add('system-ready');
+    
+    console.log("System Initialized: Sidebar & Content Synced.");
+}
+
 // Fungsi dasar mengetik
 async function typeEffect(element, text, speed = 80) {
     for (let i = 0; i <= text.length; i++) {
