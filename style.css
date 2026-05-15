@@ -109,3 +109,29 @@ body.system-ready .main-content {
     
     .sidebar { width: 100%; } /* Sidebar menu jadi full screen di mobile */
 }
+
+/* Teks welcome awalnya di tengah secara vertikal */
+.hero {
+    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Saat sistem ready dan standby 2 detik selesai, naikkan teks */
+body.content-up .hero {
+    transform: translateY(-35vh); /* Naik ke atas layar */
+}
+
+/* Tahap 3: Lobby Grid */
+.lobby-layout {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 1s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Kiri Desain, Kanan OST */
+    gap: 40px;
+    margin-top: -20vh; /* Nempel di bawah judul yang udah naik */
+}
+
+body.content-up .lobby-layout {
+    opacity: 1;
+    transform: translateX(0);
+}
