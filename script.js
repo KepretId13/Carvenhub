@@ -1,7 +1,20 @@
 const subTitle = document.getElementById('sub-title');
 const mainTitle = document.getElementById('main-title');
 
-// FUNGSI KETIK (Wajib Async)
+// DATA SISTEM (Edit daftarnya di sini kalau mau nambah ke depan)
+const designItems = [
+    { id: "01", title: "UI_LAYOUT_REVISION" },
+    { id: "02", title: "CHARACTER_STUDY_01" },
+    { id: "03", title: "MOUNTAIN_PREVIEW" }
+];
+
+const ostItems = [
+    { id: "01", title: "THE_ARCHIVE_THEME", url: "https://youtube.com/..." },
+    { id: "02", title: "BENCANA_BINTANG_OST", url: "https://youtube.com/..." },
+    { id: "03", title: "SYSTEM_IDLE_AMBIENT", url: "https://youtube.com/..." }
+];
+
+// 1. FUNGSI DASAR KETIK & HAPUS
 async function typeEffect(element, text, speed = 80) {
     if (!element) return;
     for (let i = 0; i <= text.length; i++) {
@@ -10,7 +23,6 @@ async function typeEffect(element, text, speed = 80) {
     }
 }
 
-// FUNGSI HAPUS (Wajib Async)
 async function backspaceEffect(element, speed = 40) {
     if (!element) return;
     let text = element.innerHTML;
@@ -20,11 +32,43 @@ async function backspaceEffect(element, speed = 40) {
     }
 }
 
-// MESIN UTAMA (Wajib Async)
+// 2. DYNAMIC INJECTOR (Ngerakit Shapes di HTML otomatis)
+function injectLobbyContent() {
+    const container = document.getElementById('lobby-main');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="lobby-column">
+            <span class="group-label">0x01 / ARCHIVE_DESIGN</span>
+            <ul class="shape-list">
+                ${designItems.map((item, index) => `
+                    <li style="transition-delay: ${index * 0.1}s">
+                        <a href="#" class="item-link" onclick="openDesignMenu('${item.title}')">[${item.id}] ${item.title}</a>
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+        <div class="lobby-column">
+            <span class="group-label">0x02 / ARCHIVE_OST</span>
+            <ul class="shape-list">
+                ${ostItems.map((item, index) => `
+                    <li style="transition-delay: ${(index + 3) * 0.1}s">
+                        <a href="${item.url}" target="_blank" class="item-link">[${item.id}] ${item.title}</a>
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+    `;
+    console.log("Lobby injected successfully.");
+}
+
+// 3. SEQUENCE UTAMA SISTEM
 async function initSystem() {
-    // TAHAP 1: Typing
+    console.log("Booting Core System...");
+
+    // Tahap 1: Typing Sequence
     await typeEffect(subTitle, "PROJECT_U8", 100);
-    await new Promise(res => setTimeout(res, 1000));
+    await new Promise(res => setTimeout(res, 1200));
     await backspaceEffect(subTitle, 50);
     await typeEffect(subTitle, "QUEST PLANNER ECOSYSTEM", 60);
 
@@ -33,14 +77,31 @@ async function initSystem() {
     await backspaceEffect(mainTitle, 60);
     await typeEffect(mainTitle, "WELCOME.", 150);
 
-    // TAHAP 2: Geser Sidebar
+    // Tahap 2: Sidebar Slide Masuk
     await new Promise(res => setTimeout(res, 1000));
     document.body.classList.add('system-ready');
 
-    // TAHAP 3: Welcome Naik & Lobby Muncul
+    // Tahap 2.5: Standby 2 detik
     await new Promise(res => setTimeout(res, 2000));
+
+    // Tahap 3: Teks Naik & Panggil Konten Manual
     document.body.classList.add('content-up');
+    injectLobbyContent();
 }
 
-// JALANKAN (Tanpa Await di sini)
+// 4. INTERAKSI TOGGLE & MODAL
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const trigger = document.querySelector('.menu-trigger');
+    if (!sidebar || !trigger) return;
+    sidebar.classList.toggle('active');
+    trigger.innerHTML = sidebar.classList.contains('active') ? "[ CLOSE ]" : "[ MENU ]";
+}
+
+function openDesignMenu(title) {
+    alert("Menu untuk: " + title + "\\n(Nanti kita ganti jadi Pop-up custom)");
+    // Di sini lu bisa panggil modal Etsy/Lynk.id nanti
+}
+
+// BOOT SELESAI ELEMEN SIAP
 window.addEventListener('DOMContentLoaded', initSystem);
