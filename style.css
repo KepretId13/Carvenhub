@@ -100,15 +100,65 @@ body.system-ready .main-content {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 6. MOBILE LOGIC */
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE (MAX 1024px)
+   ========================================== */
 @media (max-width: 1024px) {
-    body.system-ready .main-content {
-        padding-left: 20px;
-        align-items: center; /* Di mobile tetep di tengah biar rapi */
+    
+    /* 1. Paksa Sidebar tetap ngumpet di mobile saat boot selesai */
+    .sidebar {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%) !important; /* Harga mati: Tetap di kiri luar layar */
+        transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 1500; /* Di atas segalanya saat dibuka */
+    }
+
+    /* 2. LOGIKA TRIGGER: Sidebar HANYA boleh muncul kalau tombol MENU diklik (.active) */
+    .sidebar.active {
+        transform: translateX(0) !important; /* Baru deh muncul full screen */
+    }
+
+    /* 3. Main Content di mobile gak boleh geser ke kanan pas boot kelar */
+    body.system-ready .main-content,
+    body.content-up .main-content {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        align-items: center !important; /* Tetap center biar estetik di HP */
+    }
+
+    /* 4. Layout Lobby Grid di mobile (Biar gak flex menyamping tapi vertikal) */
+    body.content-up .lobby-container {
+        flex-direction: column;
+        gap: 30px;
+        width: 100%;
+        padding: 0 10px;
+        margin-top: 20px;
+    }
+
+    .shapes-grid {
+        grid-template-columns: repeat(4, 1fr); /* Di HP jadi 4 kolom biar kotak-kotaknya pas */
+        gap: 10px;
+    }
+
+    /* 5. Atur ulang posisi text Welcome pas naik di HP biar gak terlalu jauh */
+    body.content-up .hero {
+        transform: translateY(-8vh) !important; 
+    }
+
+    .hero h1 {
+        font-size: 2.8rem; /* Ukuran teks disesuaikan layar HP */
+        text-align: center;
     }
     
-    .sidebar { width: 100%; } /* Sidebar menu jadi full screen di mobile */
+    .hero p {
+        text-align: center;
+    }
 }
+/*------------------------------------------------------------*/
 
 /* Teks welcome awalnya di tengah secara vertikal */
 .hero {
