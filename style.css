@@ -1,4 +1,6 @@
-/* 1. INITIAL SETUP & VARIABLES */
+/* ==========================================================================
+   1. INITIAL SETUP, BRANDING, & SYSTEM VARIABLES
+   ========================================================================== */
 :root {
     --bg: #000000;
     --panel: #0a0a0a;
@@ -9,7 +11,11 @@
     --sidebar-width: 280px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
 body {
     background-color: var(--bg);
@@ -19,7 +25,29 @@ body {
     min-height: 100vh;
 }
 
-/* 2. SIDEBAR (START POSITION: HIDDEN) */
+/* Base Typo & Navigation Grouping */
+.brand { 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    margin-bottom: 40px; 
+    letter-spacing: 2px; 
+}
+
+.nav-group { 
+    margin-bottom: 30px; 
+}
+
+.group-label { 
+    font-size: 0.6rem; 
+    color: var(--dim); 
+    letter-spacing: 2px; 
+    display: block; 
+    margin-bottom: 15px; 
+}
+
+/* ==========================================================================
+   2. CORE ARCHITECTURE LAYER (DESKTOP DEFAULT)
+   ========================================================================== */
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
@@ -31,33 +59,54 @@ body {
     top: 0;
     display: flex;
     flex-direction: column;
-    transform: translateX(-100%); /* Ngumpet di kiri */
+    transform: translateX(-100%); /* Sembunyi secara default sebelum boot */
     transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 1000;
 }
 
-/* 3. MAIN CONTENT (START POSITION: CENTER) */
 .main-content {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* Awalnya teks di tengah */
-    transition: all 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+    align-items: center; /* Tetap center sepanjang waktu agar sumbu rotasi & geser konsisten */
 }
 
-/* 4. ANIMATION TRIGGER (DIPANGGIL JS) */
-body.system-ready .sidebar {
-    transform: translateX(0); /* Sidebar masuk */
+.sidebar ul { 
+    list-style: none; 
 }
 
-body.system-ready .main-content {
-    align-items: flex-start; /* Teks geser ke kiri */
-    padding-left: calc(var(--sidebar-width) + 5%);
+.sidebar ul li a { 
+    color: var(--text); 
+    text-decoration: none; 
+    font-size: 0.8rem; 
+    padding: 8px 0; 
+    display: block; 
+    transition: 0.3s;
 }
 
-/* 5. TYPOGRAPHY & INTERFACE */
+/* Hierarchy Dashboard Menu */
+.child-menu { 
+    padding-left: 15px; 
+    margin-top: 5px; 
+}
+
+.child-menu li a { 
+    color: var(--dim) !important; 
+    font-size: 0.7rem !important; 
+}
+
+/* ==========================================================================
+   3. ANIMATION ENGINE & CHOREOGRAPHY (PURE TRANSFORM NO CUT LOGIC)
+   ========================================================================== */
+.hero {
+    /* Murni digerakkan lewat transform hardware GPU biar gak kaku/patah */
+    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1); 
+    will-change: transform;
+    text-align: center;
+}
+
 .hero h1 {
     font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 900;
@@ -74,25 +123,23 @@ body.system-ready .main-content {
     min-height: 1.2em;
 }
 
-.brand { font-size: 1.2rem; font-weight: bold; margin-bottom: 40px; letter-spacing: 2px; }
-.nav-group { margin-bottom: 30px; }
-.group-label { font-size: 0.6rem; color: var(--dim); letter-spacing: 2px; display: block; margin-bottom: 15px; }
-
-.sidebar ul { list-style: none; }
-.sidebar ul li a { 
-    color: var(--text-sub); 
-    text-decoration: none; 
-    font-size: 0.8rem; 
-    padding: 8px 0; 
-    display: block; 
-    transition: 0.3s;
+/* State 1: Boot Berhasil (Sidebar Slide In, Main Content Beri Ruang) */
+body.system-ready .sidebar {
+    transform: translateX(0);
 }
 
-/* Hierarchy Dashboard */
-.child-menu { padding-left: 15px; margin-top: 5px; }
-.child-menu li a { color: var(--dim) !important; font-size: 0.7rem !important; }
+body.system-ready .hero {
+    /* Geser horizontal ke kanan untuk menyeimbangkan layout desktop */
+    transform: translateX(140px); 
+}
 
-/* Typing Cursor */
+/* State 2: Welcome Naik Ke Atas Setelah Standby 2 Detik */
+body.content-up .hero {
+    /* Gabungan X dan Y yang linear, mencegah glitch patah (ke-cut) akibat align-items */
+    transform: translate(140px, -18vh); 
+}
+
+/* Typing Cursor Utility */
 #sub-title::after, #main-title::after {
     content: '|';
     animation: blink 0.7s infinite;
@@ -100,102 +147,19 @@ body.system-ready .main-content {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* ==========================================
-   MOBILE & TABLET RESPONSIVE (MAX 1024px)
-   ========================================== */
-@media (max-width: 1024px) {
-    
-    /* 1. Paksa Sidebar tetap ngumpet di mobile saat boot selesai */
-    .sidebar {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        left: 0;
-        top: 0;
-        transform: translateX(-100%) !important; /* Harga mati: Tetap di kiri luar layar */
-        transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-        z-index: 1500; /* Di atas segalanya saat dibuka */
-    }
-
-    /* 2. LOGIKA TRIGGER: Sidebar HANYA boleh muncul kalau tombol MENU diklik (.active) */
-    .sidebar.active {
-        transform: translateX(0) !important; /* Baru deh muncul full screen */
-    }
-
-    /* 3. Main Content di mobile gak boleh geser ke kanan pas boot kelar */
-    body.system-ready .main-content,
-    body.content-up .main-content {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-        align-items: center !important; /* Tetap center biar estetik di HP */
-    }
-
-    /* 4. Layout Lobby Grid di mobile (Biar gak flex menyamping tapi vertikal) */
-    body.content-up .lobby-container {
-        flex-direction: column;
-        gap: 30px;
-        width: 100%;
-        padding: 0 10px;
-        margin-top: 20px;
-    }
-
-    .shapes-grid {
-        grid-template-columns: repeat(4, 1fr); /* Di HP jadi 4 kolom biar kotak-kotaknya pas */
-        gap: 10px;
-    }
-
-    /* 5. Atur ulang posisi text Welcome pas naik di HP biar gak terlalu jauh */
-    body.content-up .hero {
-        transform: translateY(-8vh) !important; 
-    }
-
-    .hero h1 {
-        font-size: 2.8rem; /* Ukuran teks disesuaikan layar HP */
-        text-align: center;
-    }
-    
-    .hero p {
-        text-align: center;
-    }
-}
-/*------------------------------------------------------------*/
-
-/* Teks welcome awalnya di tengah secara vertikal */
-.hero {
-    /* Kasih sedikit padding top biar pas naik gak nempel browser */
-    padding-top: 50px; 
-    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-/* Saat sistem ready dan standby 2 detik selesai, naikkan teks */
-body.content-up .hero {
-    transform: translateY(-18vh); /* Naik ke atas layar */ /* Jangan pake -30vh, terlalu jauh. Pake -15vh atau -20vh aja */
-}
-
-/* Tahap 3: Lobby Grid */ /*-----------------------------------------------------------------------------------*/
-.lobby-layout {
-    opacity: 0;
-    transform: translateX(30px);
-    transition: all 1s ease;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Kiri Desain, Kanan OST */
-    gap: 40px;
-    margin-top: -20vh; /* Nempel di bawah judul yang udah naik */
-}
-
-body.content-up .lobby-layout {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* TAHAP 3 ANIMASI */ /*-----------------------------------------------------------------------------------*/
+/* ==========================================================================
+   4. INTERACTIVE LOBBY MODULE (DYNAMIC INJECTED COMPONENT)
+   ========================================================================== */
 .lobby-container {
     opacity: 0;
     display: flex;
     gap: 60px;
-    margin-top: 50px;
-    transition: all 1.2s ease 2.2s; /* Muncul setelah Welcome naik */
+    margin-top: -50px; /* Merapatkan jarak di bawah header yang sudah naik */
     transform: translateY(30px);
+    transition: opacity 1s ease-in-out, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 100%;
+    padding-left: calc(var(--sidebar-width) + 5%);
+    padding-right: 5%;
 }
 
 body.content-up .lobby-container {
@@ -203,39 +167,11 @@ body.content-up .lobby-container {
     transform: translateY(0);
 }
 
-.shapes-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 kolom ke samping */
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.shape-item {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: 0.3s;
-    text-decoration: none;
-    color: var(--text);
-}
-
-/* Container untuk List Lobby */ /*-----------------------------------------------------------------------------------*/
-.lobby-grid {
-    display: flex;
-    gap: 40px;
-    margin-top: 20px;
-}
-
-.list-section {
+.lobby-column {
     flex: 1;
 }
 
-/* SHAPE BACKGROUND UNTUK ITEM */ /*-----------------------------------------------------------------------------------*/
+/* Shape Capsule Layout */
 .shape-list {
     list-style: none;
     margin-top: 20px;
@@ -245,10 +181,10 @@ body.content-up .lobby-container {
     margin-bottom: 12px;
     opacity: 0;
     transform: translateX(20px);
-    transition: all 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Animasi muncul berurutan (Staggered) */ /*-----------------------------------------------------------------------------------*/
+/* Efek Muncul Berurutan Melalui JS Transition Delay */
 body.content-up .shape-list li {
     opacity: 1;
     transform: translateX(0);
@@ -256,26 +192,28 @@ body.content-up .shape-list li {
 
 .item-link {
     display: block;
-    background: rgba(255, 255, 255, 0.03); /* Shape Background */
-    border: 1px solid #1a1a1a;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 15px 20px;
     color: #888;
     text-decoration: none;
     font-size: 0.85rem;
     position: relative;
     overflow: hidden;
-    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
 }
 
-/* Efek Hover: Aesthetic Glow */ /*-----------------------------------------------------------------------------------*/
+/* Hover Response & Aesthetic Glow */
 .item-link:hover {
-    background: rgba(56, 189, 248, 0.05); /* Warna aksen tipis */
+    background: rgba(56, 189, 248, 0.04);
     border-color: var(--accent);
-    color: #fff;
-    padding-left: 30px; /* Geser teks dikit */
+    color: #ffffff;
+    padding-left: 30px;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
 }
 
-/* Garis dekorasi di samping shape */ /*-----------------------------------------------------------------------------------*/
+/* Garis Dekorator Samping Capsule */
 .item-link::before {
     content: '';
     position: absolute;
@@ -285,36 +223,24 @@ body.content-up .shape-list li {
     width: 3px;
     background: var(--accent);
     transform: scaleY(0);
-    transition: 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .item-link:hover::before {
     transform: scaleY(1);
 }
 
-
-/* Warna Aesthetic */ /*-----------------------------------------------------------------------------------*/
-.ost-style:hover {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-}
-
-.design-style:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-/* Model Styling */ /*-----------------------------------------------------------------------------------*/
+/* ==========================================================================
+   5. OVERLAY DIALOGS & MODAL LAYER
+   ========================================================================== */
 .modal {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #0a0a0a;
-    border: 1px solid var(--accent);
+    background: var(--panel);
+    border: 1px solid var(--border);
     padding: 30px;
     z-index: 2000;
     text-align: center;
@@ -323,9 +249,59 @@ body.content-up .shape-list li {
 .modal-buttons a, .modal-buttons button {
     display: block;
     margin: 10px 0;
-    color: #fff;
+    color: var(--text);
     text-decoration: none;
     border: 1px solid #333;
     padding: 10px;
     font-size: 0.7rem;
+    font-family: inherit;
+    background: none;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%) !important; /* Paksa tetap mengunci di luar layar pasca-boot */
+        transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 1500;
+    }
+
+    /* Sidebar Aktif Hanya Via Klik Tombol Trigger */
+    .sidebar.active {
+        transform: translateX(0) !important;
+    }
+
+    body.system-ready .main-content,
+    body.content-up .main-content {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    body.system-ready .hero {
+        transform: translateX(0) !important; /* Batalkan pergeseran horizontal di mobile */
+    }
+
+    body.content-up .hero {
+        transform: translateY(-10vh) !important; /* Murni geser ke atas di layar HP */
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    /* Responsivitas Konten Lobby */
+    .lobby-container {
+        flex-direction: column;
+        gap: 30px;
+        padding-left: 5% !important;
+        margin-top: 20px;
+    }
 }
