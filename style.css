@@ -48,6 +48,7 @@ body {
 /* ==========================================================================
    2. CORE ARCHITECTURE LAYER (DESKTOP DEFAULT)
    ========================================================================== */
+
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
@@ -100,6 +101,7 @@ body {
 /* ==========================================================================
    3. ANIMATION ENGINE & CHOREOGRAPHY (PURE TRANSFORM NO CUT LOGIC)
    ========================================================================== */
+
 .hero {
     /* Murni digerakkan lewat transform hardware GPU biar gak kaku/patah */
     transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1); 
@@ -150,6 +152,7 @@ body.content-up .hero {
 /* ==========================================================================
    4. INTERACTIVE LOBBY MODULE (DYNAMIC INJECTED COMPONENT)
    ========================================================================== */
+
 .lobby-container {
     opacity: 0;
     display: flex;
@@ -262,6 +265,7 @@ body.content-up .shape-list li {
 /* ==========================================================================
    6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px)
    ========================================================================== */
+
 @media (max-width: 1024px) {
     .sidebar {
         width: 100vw;
