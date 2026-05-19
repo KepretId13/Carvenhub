@@ -263,7 +263,7 @@ body.content-up .shape-list li {
 }
 
 /* ==========================================================================
-   6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px) - CALIBRATED
+   6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px) - HARD LOCK
    ========================================================================== */
 @media (max-width: 1024px) {
     .sidebar {
@@ -272,42 +272,47 @@ body.content-up .shape-list li {
         position: fixed;
         left: 0;
         top: 0;
-        transform: translateX(-100%) !important; /* Kunci mati di luar layar pasca-boot */
+        transform: translateX(-100%) !important;
         transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
         z-index: 1500;
     }
 
-    /* Sidebar Aktif Hanya Via Klik Tombol Trigger */
     .sidebar.active {
         transform: translateX(0) !important;
     }
 
-    body.system-ready .main-content,
+    /* KUNCI UTAMA: Ubah flexbox menjadi alur normal saat content sudah up */
     body.content-up .main-content {
+        justify-content: flex-start !important; /* Paksa alur ngalir dari atas ke bawah */
+        padding-top: 60px !important; /* Kasih safe zone mutlak biar judul gak nabrak browser */
         padding-left: 20px !important;
         padding-right: 20px !important;
     }
 
     body.system-ready .hero {
-        transform: translateX(0) !important; /* Batalkan pergeseran horizontal desktop di HP */
+        transform: translateX(0) !important;
     }
 
-    /* KALIBRASI BARU: Biar gak jebol ke atas di HP */
+    /* MATIKAN TRANSLATE Y DI MOBILE: Kita atur posisi pake margin/padding alami */
     body.content-up .hero {
-        transform: translateY(-4vh) !important; /* Diturunin dikit biar pas duduk di safe zone mobile */
+        transform: none !important; /* Matikan efek geser vh yang bikin jebol */
+        text-align: center;
+        width: 100%;
+        margin-bottom: 30px; /* Ngasih jarak aman ke konten di bawahnya */
     }
 
     .hero h1 {
-        font-size: 2.6rem; /* Sedikit dikecilkan di HP biar gak terlalu makan space vertical */
+        font-size: 2.5rem !important; /* Ukuran pas untuk layar HP */
+        line-height: 1.1;
     }
 
     /* Responsivitas Konten Lobby & Manifest di Mobile */
     .lobby-container {
         flex-direction: column !important;
-        gap: 30px !important;
-        padding-left: 0 !important; /* Hilangkan space padding-left desktop */
+        gap: 25px !important;
+        padding-left: 0 !important;
         padding-right: 0 !important;
-        margin-top: 10px !important; /* Naikkan dikit biar nempel pas di bawah judul */
+        margin-top: 0 !important; /* Reset margin negatif */
         width: 100%;
     }
 
@@ -318,8 +323,9 @@ body.content-up .shape-list li {
     }
 
     .manifest-container {
-        grid-template-columns: 1fr; /* Menjadi satu kolom vertikal di HP */
+        grid-template-columns: 1fr;
         gap: 15px;
     }
 }
+
 
