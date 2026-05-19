@@ -263,9 +263,8 @@ body.content-up .shape-list li {
 }
 
 /* ==========================================================================
-   6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px)
+   6. MOBILE & TABLET RESPONSIVE SYSTEM (MAX 1024px) - CALIBRATED
    ========================================================================== */
-
 @media (max-width: 1024px) {
     .sidebar {
         width: 100vw;
@@ -273,7 +272,7 @@ body.content-up .shape-list li {
         position: fixed;
         left: 0;
         top: 0;
-        transform: translateX(-100%) !important; /* Paksa tetap mengunci di luar layar pasca-boot */
+        transform: translateX(-100%) !important; /* Kunci mati di luar layar pasca-boot */
         transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
         z-index: 1500;
     }
@@ -290,22 +289,37 @@ body.content-up .shape-list li {
     }
 
     body.system-ready .hero {
-        transform: translateX(0) !important; /* Batalkan pergeseran horizontal di mobile */
+        transform: translateX(0) !important; /* Batalkan pergeseran horizontal desktop di HP */
     }
 
+    /* KALIBRASI BARU: Biar gak jebol ke atas di HP */
     body.content-up .hero {
-        transform: translateY(-10vh) !important; /* Murni geser ke atas di layar HP */
+        transform: translateY(-4vh) !important; /* Diturunin dikit biar pas duduk di safe zone mobile */
     }
 
     .hero h1 {
-        font-size: 2.8rem;
+        font-size: 2.6rem; /* Sedikit dikecilkan di HP biar gak terlalu makan space vertical */
     }
 
-    /* Responsivitas Konten Lobby */
+    /* Responsivitas Konten Lobby & Manifest di Mobile */
     .lobby-container {
+        flex-direction: column !important;
+        gap: 30px !important;
+        padding-left: 0 !important; /* Hilangkan space padding-left desktop */
+        padding-right: 0 !important;
+        margin-top: 10px !important; /* Naikkan dikit biar nempel pas di bawah judul */
+        width: 100%;
+    }
+
+    .lobby-row {
         flex-direction: column;
-        gap: 30px;
-        padding-left: 5% !important;
-        margin-top: 20px;
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+
+    .manifest-container {
+        grid-template-columns: 1fr; /* Menjadi satu kolom vertikal di HP */
+        gap: 15px;
     }
 }
+
