@@ -49,6 +49,39 @@
 
   <!-- SHOW ALL MODAL -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+
+  <!-- PREVIEW CARD (kiri dari modal) -->
+  <div class="preview-card" id="previewCard" onmouseenter="clearTimeout(previewTimeout)" onmouseleave="hidePreview()">
+    <div class="pv-img-wrap">
+      <img id="pvImg" src="" alt="">
+      <div class="pv-img-placeholder" id="pvImgPlaceholder">
+        <span class="pv-placeholder-symbol" id="pvSymbolPlaceholder"></span>
+      </div>
+    </div>
+    <div class="pv-body">
+      <div class="pv-name" id="pvName"></div>
+      <div class="pv-sub" id="pvSub"></div>
+      <div class="pv-props">
+        <div class="pv-prop">
+          <span class="pv-prop-label">DQ</span>
+          <span class="pv-prop-val" id="pvDq"></span>
+        </div>
+        <div class="pv-prop">
+          <span class="pv-prop-label">Vibe</span>
+          <span class="pv-prop-val" id="pvVibe"></span>
+        </div>
+        <div class="pv-prop">
+          <span class="pv-prop-label">Symbol</span>
+          <span class="pv-prop-val" id="pvSymbol"></span>
+        </div>
+        <div class="pv-prop">
+          <span class="pv-prop-label">Date</span>
+          <span class="pv-prop-val" id="pvDate"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-panel" id="modalPanel">
     <div class="modal-header">
       <span class="modal-header-title">Show All</span>
