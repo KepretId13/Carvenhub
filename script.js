@@ -1,151 +1,245 @@
-const subTitle = document.getElementById('sub-title');
-const mainTitle = document.getElementById('main-title');
-
-// ==========================================================================
-// DATA REPOSITORIES (Edit isi daftar/konten lu di sini)
-// ==========================================================================
-
-// Kategori 0x01: Archive Design
-const designItems = [
-    { id: "01", title: "UI_LAYOUT_REVISION" },
-    { id: "02", title: "CHARACTER_STUDY_01" },
-    { id: "03", title: "MOUNTAIN_PREVIEW" }
+/* ═══════════════════════════════
+   INTRO SEQUENCE
+═══════════════════════════════ */
+const sequences = [
+  {
+    label: 'Project_U8',
+    title: 'The Archive',
+    hold: 1400,
+  },
+  {
+    label: 'Quest Planner Ecosystem',
+    title: 'Welcome',
+    hold: 1600,
+    last: true,
+  }
 ];
 
-// Kategori 0x02: Archive OST
-const ostItems = [
-    { id: "01", title: "THE_ARCHIVE_THEME", url: "https://youtube.com/..." },
-    { id: "02", title: "BENCANA_BINTANG_OST", url: "https://youtube.com/..." },
-    { id: "03", title: "SYSTEM_IDLE_AMBIENT", url: "https://youtube.com/..." }
+let currentText = '';
+let labelEl, textEl, scanline;
+
+const TYPING_SPEED = 60;
+const ERASE_SPEED  = 35;
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function typeText(str) {
+  for (let i = 0; i < str.length; i++) {
+    currentText = str.slice(0, i + 1);
+    textEl.textContent = currentText;
+    await sleep(TYPING_SPEED + Math.random() * 20);
+  }
+}
+
+async function eraseText() {
+  while (currentText.length > 0) {
+    currentText = currentText.slice(0, -1);
+    textEl.textContent = currentText;
+    await sleep(ERASE_SPEED + Math.random() * 10);
+  }
+}
+
+async function eraseLabel() {
+  let lbl = labelEl.textContent;
+  while (lbl.length > 0) {
+    lbl = lbl.slice(0, -1);
+    labelEl.textContent = lbl;
+    await sleep(25);
+  }
+}
+
+async function runIntro() {
+  labelEl  = document.getElementById('introLabel');
+  textEl   = document.getElementById('introText');
+  scanline = document.getElementById('introScanline');
+
+  await sleep(400);
+
+  for (let i = 0; i < sequences.length; i++) {
+    const seq = sequences[i];
+
+    labelEl.classList.add('active');
+    for (let c = 0; c < seq.label.length; c++) {
+      labelEl.textContent = seq.label.slice(0, c + 1);
+      await sleep(40);
+    }
+
+    await sleep(200);
+    await typeText(seq.title);
+
+    scanline.classList.add('grow');
+    await sleep(seq.hold);
+
+    if (seq.last) {
+      scanline.classList.remove('grow');
+      await sleep(200);
+      triggerTransition();
+      return;
+    }
+
+    scanline.classList.remove('grow');
+    await sleep(200);
+    await Promise.all([eraseText(), eraseLabel()]);
+    await sleep(300);
+  }
+}
+
+function triggerTransition() {
+  const intro = document.getElementById('intro');
+  intro.classList.add('shrink-out');
+
+  setTimeout(() => {
+    intro.style.display = 'none';
+    document.getElementById('main-bg').classList.add('visible');
+    document.getElementById('main-content').classList.add('visible');
+    document.getElementById('corner-logo').classList.add('visible');
+    initScrollReveal();
+  }, 1100);
+}
+
+/* ═══════════════════════════════
+   RANKINGS DATA
+═══════════════════════════════ */
+const designThemes = [
+  { name: 'Brutalist Monochrome', sub: 'Print / Editorial', score: '9.8' },
+  { name: 'Glassmorphism Dark', sub: 'UI / Interface', score: '9.6' },
+  { name: 'Organic Texture', sub: 'Brand Identity', score: '9.4' },
+  { name: 'Neon Retro Cyber', sub: 'Poster / Event', score: '9.2' },
+  { name: 'Minimal Serif', sub: 'Catalog / Print', score: '9.0' },
+  { name: 'Earth Tone Muted', sub: 'Lifestyle Brand', score: '8.9' },
+  { name: 'Data Visualization', sub: 'Dashboard / Report', score: '8.7' },
+  { name: 'Kinetic Typography', sub: 'Motion / Social', score: '8.5' },
+  { name: 'Flat Geometric', sub: 'App / Product', score: '8.3' },
+  { name: 'Vintage Halftone', sub: 'Merch / Zine', score: '8.1' },
 ];
 
-// Kategori 0x03: Ecosystem Manifest (Standar Antarmuka Sederhana)
-const manifestItems = [
-    {
-        header: "CORE_ECOSYSTEM",
-        desc: "Universe8 bertindak sebagai arsitektur mandiri untuk mengelola lini kreatif, eksperimen data, serta pelacakan quest planner secara terpusat."
-    },
-    {
-        header: "INTERFACE_STANDARD",
-        desc: "Sistem antarmuka berbasis asinkronus (Level 4), dirancang minimalis menggunakan enkapsulasi capsule-grid guna memastikan efisiensi visual."
-    },
-    {
-        header: "PLANNER_LOGIC",
-        desc: "Modul manajemen tugas taktis untuk menyinkronkan seluruh proyek berjalan, lore, dan aset komersial dalam satu kendali operasional."
-    }
+const ostThemes = [
+  { name: 'Ambient Lo-fi Piano', sub: 'Focus / Study Mode', score: '9.9' },
+  { name: 'Epic Orchestral Swell', sub: 'Boss Fight / Peak', score: '9.7' },
+  { name: 'Synthwave Drive', sub: 'Daily Sprint', score: '9.5' },
+  { name: 'Melancholic Strings', sub: 'Recovery / Reflection', score: '9.3' },
+  { name: 'Jazz Café Afternoon', sub: 'Review Session', score: '9.1' },
+  { name: 'Field Recording', sub: 'Weekly Reset', score: '8.8' },
+  { name: 'Drum & Bass Pulse', sub: 'Deadline Mode', score: '8.6' },
+  { name: 'Choral Hymn', sub: 'Monthly Ceremony', score: '8.4' },
+  { name: 'Minimalist Clicks', sub: 'Deep Work', score: '8.2' },
+  { name: 'Cinematic Tension', sub: 'Hard Decision', score: '8.0' },
 ];
 
-// ==========================================================================
-// 1. FUNGSI DASAR KETIK & HAPUS
-// ==========================================================================
-async function typeEffect(element, text, speed = 80) {
-    if (!element) return;
-    for (let i = 0; i <= text.length; i++) {
-        element.innerHTML = text.substring(0, i);
-        await new Promise(res => setTimeout(res, speed));
-    }
+function buildRankList(data, container, isOst) {
+  container.innerHTML = data.map((item, i) => {
+    const pos = i + 1;
+    const topClass = pos <= 3 ? 'top3' + (isOst ? ' ost' : '') : '';
+    const ostItemClass = isOst ? 'ost-item' : '';
+    return `
+    <div class="rank-item ${ostItemClass}">
+      <div class="rank-pos ${topClass}">${String(pos).padStart(2,'0')}</div>
+      <div class="rank-info">
+        <div class="rank-name">${item.name}</div>
+        <div class="rank-sub">${item.sub}</div>
+      </div>
+      <div class="rank-score">${item.score}</div>
+      <div class="rank-bar"></div>
+    </div>`;
+  }).join('');
 }
 
-async function backspaceEffect(element, speed = 40) {
-    if (!element) return;
-    let text = element.innerHTML;
-    for (let i = text.length; i >= 0; i--) {
-        element.innerHTML = text.substring(0, i);
-        await new Promise(res => setTimeout(res, speed));
-    }
+/* ═══════════════════════════════
+   MODAL - SHOW ALL
+═══════════════════════════════ */
+function buildModalList(data, containerId, isOst) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = data.map((item, i) => {
+    const pos = i + 1;
+    const posClass = pos <= 3 ? (isOst ? 't3o' : 't3d') : '';
+    return `
+    <div class="modal-item">
+      <div class="modal-pos ${posClass}">${String(pos).padStart(2,'0')}</div>
+      <div class="modal-name">${item.name}</div>
+      <div class="modal-score">${item.score}</div>
+    </div>`;
+  }).join('');
 }
 
-// ==========================================================================
-// 2. DYNAMIC INJECTOR (Ngerakit List & Manifest ke HTML otomatis)
-// ==========================================================================
-function injectLobbyContent() {
-    const container = document.getElementById('lobby-main');
-    if (!container) return;
-
-    container.innerHTML = `
-        <div class="lobby-row">
-            <div class="lobby-column">
-                <span class="group-label">0x01 / ARCHIVE_DESIGN</span>
-                <ul class="shape-list">
-                    ${designItems.map((item, index) => `
-                        <li style="transition-delay: ${index * 0.1}s">
-                            <a href="#" class="item-link" onclick="openDesignMenu('${item.title}')">[${item.id}] ${item.title}</a>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-            
-            <div class="lobby-column">
-                <span class="group-label">0x02 / ARCHIVE_OST</span>
-                <ul class="shape-list">
-                    ${ostItems.map((item, index) => `
-                        <li style="transition-delay: ${(index + designItems.length) * 0.1}s">
-                            <a href="${item.url}" target="_blank" class="item-link">[${item.id}] ${item.title}</a>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-        </div>
-
-        <div class="manifest-section" style="transition-delay: ${(designItems.length + ostItems.length) * 0.1 + 0.3}s;">
-            <span class="group-label">0x03 / ECOSYSTEM_MANIFEST</span>
-            <div class="manifest-container">
-                ${manifestItems.map(box => `
-                    <div class="manifest-box">
-                        <h4>${box.header}</h4>
-                        <p>${box.desc}</p>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    console.log("Lobby & Manifest injected successfully.");
+function toggleModal() {
+  const panel   = document.getElementById('modalPanel');
+  const overlay = document.getElementById('modalOverlay');
+  const btn     = document.getElementById('showAllBtn');
+  const isOpen  = panel.classList.contains('open');
+  if (isOpen) {
+    closeModal();
+  } else {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    btn.classList.add('open');
+  }
 }
 
-// ==========================================================================
-// 3. SEQUENCE UTAMA SISTEM
-// ==========================================================================
-async function initSystem() {
-    console.log("Booting Core System...");
-
-    // Tahap 1: Typing Sequence
-    await typeEffect(subTitle, "PROJECT_U8", 100);
-    await new Promise(res => setTimeout(res, 1200));
-    await backspaceEffect(subTitle, 50);
-    await typeEffect(subTitle, "QUEST PLANNER ECOSYSTEM", 60);
-
-    await typeEffect(mainTitle, "THE ARCHIVE.", 100);
-    await new Promise(res => setTimeout(res, 2000));
-    await backspaceEffect(mainTitle, 60);
-    await typeEffect(mainTitle, "WELCOME.", 150);
-
-    // Tahap 2: Sidebar Slide Masuk
-    await new Promise(res => setTimeout(res, 1000));
-    document.body.classList.add('system-ready');
-
-    // Tahap 2.5: Standby 2 detik
-    await new Promise(res => setTimeout(res, 2000));
-
-    // Tahap 3: Teks Naik & Panggil Konten Manual
-    document.body.classList.add('content-up');
-    injectLobbyContent();
+function closeModal() {
+  document.getElementById('modalPanel').classList.remove('open');
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('showAllBtn').classList.remove('open');
 }
 
-// ==========================================================================
-// 4. INTERAKSI TOGGLE & MODAL
-// ==========================================================================
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const trigger = document.querySelector('.menu-trigger');
-    if (!sidebar || !trigger) return;
-    sidebar.classList.toggle('active');
-    trigger.innerHTML = sidebar.classList.contains('active') ? "[ CLOSE ]" : "[ MENU ]";
+/* ═══════════════════════════════
+   ACTIVE NAV — SCROLL TRACKER
+═══════════════════════════════ */
+function initNavTracker() {
+  const sections = ['hero', 'rankings', 'story'];
+  const links = document.querySelectorAll('.nav-link-item');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach(a => {
+          if (a.dataset.section === id) {
+            a.classList.add('nav-active');
+          } else {
+            a.classList.remove('nav-active');
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
 }
 
-function openDesignMenu(title) {
-    alert("Menu untuk: " + title + "\\n(Nanti kita ganti jadi Pop-up custom)");
-    // Di sini lu bisa panggil modal Etsy/Lynk.id nanti
+/* ═══════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════ */
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
 }
 
-// BOOT SELESAI ELEMEN SIAP
-window.addEventListener('DOMContentLoaded', initSystem);
+/* ═══════════════════════════════
+   BOOT
+═══════════════════════════════ */
+const designList = document.querySelector('.rank-list:not(.ost-list)');
+const ostList    = document.querySelector('.rank-list.ost-list');
+buildRankList(designThemes, designList, false);
+buildRankList(ostThemes, ostList, true);
+
+buildModalList(designThemes, 'modalDesignList', false);
+buildModalList(ostThemes, 'modalOstList', true);
+
+runIntro();
+
+// Nav tracker init setelah intro done
+const navTrackerInterval = setInterval(() => {
+  if (document.getElementById('main-content').classList.contains('visible')) {
+    initNavTracker();
+    clearInterval(navTrackerInterval);
+  }
+}, 200);
