@@ -266,7 +266,7 @@ nav {
 .preview-card {
   position: fixed;
   top: 72px;
-  right: 364px; /* 32px gap + 320px modal + 12px */
+  right: 364px;
   z-index: 201;
   width: 240px;
   background: var(--surface);
