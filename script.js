@@ -195,6 +195,22 @@ function buildModalList(data, containerId, isOst) {
 let previewTimeout = null;
 let currentPreviewName = null;
 
+function getCardTop(el) {
+  const card      = document.getElementById('previewCard');
+  const cardH     = card.offsetHeight || 320; // estimasi tinggi card
+  const rect      = el.getBoundingClientRect();
+  const itemMidY  = rect.top + rect.height / 2;
+  const margin    = 12;
+  const vpH       = window.innerHeight;
+
+  // Coba align tengah card ke tengah item
+  let top = itemMidY - cardH / 2;
+
+  // Clamp: jangan keluar viewport
+  top = Math.max(margin, Math.min(top, vpH - cardH - margin));
+  return top;
+}
+
 function showPreview(el) {
   const name   = el.dataset.name;
   const sub    = el.dataset.sub;
@@ -208,13 +224,15 @@ function showPreview(el) {
   const card = document.getElementById('previewCard');
   if (!card) return;
 
-  // same item, skip re-render
-  if (currentPreviewName === name && card.classList.contains('visible')) return;
-
   clearTimeout(previewTimeout);
 
   const doShow = () => {
     currentPreviewName = name;
+
+    // Set posisi Y dinamis
+    const topY = getCardTop(el);
+    card.style.top = topY + 'px';
+
     document.getElementById('pvImg').src = `assets/${file}`;
     document.getElementById('pvImg').onerror = function() {
       this.style.display = 'none';
