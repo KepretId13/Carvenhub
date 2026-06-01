@@ -158,35 +158,21 @@ function buildRankList(data, container, isOst) {
 /* ═══════════════════════════════
    MODAL - SHOW ALL
 ═══════════════════════════════ */
-function nameToFile(name) {
-  return name.replace(/ /g, '_') + '.webp';
-}
-
-function buildModalList(data, containerId, isOst) {
+/* ═══════════════════════════════
+   MODAL - FETCH LIST
+═══════════════════════════════ */
+async function loadModalList(url, containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  el.innerHTML = data.map((item, i) => {
-    const pos = i + 1;
-    const posClass = pos <= 3 ? (isOst ? 't3o' : 't3d') : '';
-    const file = nameToFile(item.name);
-    return `
-    <div class="modal-item"
-      data-name="${item.name}"
-      data-sub="${item.sub}"
-      data-score="${item.score}"
-      data-dq="${item.dq}"
-      data-vibe="${item.vibe}"
-      data-symbol="${item.symbol}"
-      data-date="${item.date}"
-      data-file="${file}"
-      data-type="${isOst ? 'ost' : 'design'}"
-      onmouseenter="showPreview(this)"
-      onmouseleave="hidePreview()">
-      <div class="modal-pos ${posClass}">${String(pos).padStart(2,'0')}</div>
-      <div class="modal-name">${item.name}</div>
-      <div class="modal-score">${item.score}</div>
-    </div>`;
-  }).join('');
+  try {
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    el.innerHTML = html;
+  } catch (err) {
+    el.innerHTML = `<div style="padding:12px;font-size:12px;color:var(--muted)">Gagal load: ${url}</div>`;
+    console.warn('loadModalList error:', err);
+  }
 }
 
 /* ═══════════════════════════════
@@ -351,8 +337,9 @@ const ostList    = document.querySelector('.rank-list.ost-list');
 buildRankList(designThemes, designList, false);
 buildRankList(ostThemes, ostList, true);
 
-buildModalList(designThemes, 'modalDesignList', false);
-buildModalList(ostThemes, 'modalOstList', true);
+// Fetch modal lists dari file terpisah
+loadModalList('design-list.html', 'modalDesignList');
+loadModalList('ost-list.html',    'modalOstList');
 
 runIntro();
 
