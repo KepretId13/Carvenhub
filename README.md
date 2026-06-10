@@ -1,5 +1,6 @@
 # Carvenhub 
-# Simple: If you seeing thid README.md that's mean you already Diver Layer.
+## Simple: If you seeing thid README.md that's mean you already Diver Layer.
+### Subtext
 
 this is my data assets property, this is secret base that my product with any ecosistem data like multiverse database
 if you seeing it, this is my own world, my project that available with any world like universe, i called "Universe8".
@@ -27,7 +28,7 @@ This is a Diver Level that only a System. for example
 - Line
 
 so. what you see is not a normal paper, basicly they isn't normal, claude told me to create system that connect, so... i'll try:
-> Gemini                                                                                                                    > Reaserch, Illustrator, Direktor
+ Gemini                                                                                                                    > Reaserch, Illustrator, Direktor
 > Perplex                                                                                                                   > Informant, Helper
 > Claude                                                                                                                    > Team Lead
 > Me                                                                                                                        > Bridger
