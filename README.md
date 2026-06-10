@@ -27,11 +27,7 @@ This is a Diver Level that only a System. for example
 - Line
 
 so. what you see is not a normal paper, basicly they isn't normal, claude told me to create system that connect, so... i'll try:
-> Gemini
-  > Reaserch, Illustrator, Direktor
-> Perplex
-  > Informant, Helper
-> Claude
-  > Team Lead
-> Me
-  > Bridger
+> Gemini                                                                                                                    > Reaserch, Illustrator, Direktor
+> Perplex                                                                                                                   > Informant, Helper
+> Claude                                                                                                                    > Team Lead
+> Me                                                                                                                        > Bridger
