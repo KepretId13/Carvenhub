@@ -8,23 +8,23 @@ they alive, i don't have a good question for this but... they it is, i crete thi
 Let me split it up...
   <Layer Surface>
   This a surface level, they have a form for example
-     - A planner
-     - Manga
-     - OST
-     - Visual
-     - Excel
+- A planner
+- Manga
+- OST
+- Visual
+- Excel
 
      
   <Layer Diver>
   This is a Diver Level that only a System. for example
-     - Module
-     - Math
-     - Formula
-     - Data
-     - Index
-     - Logic
-     - Code
-     - Line
+- Module
+- Math
+- Formula
+- Data
+- Index
+- Logic
+- Code
+- Line
 
 Simple: If you seeing thid README.md that's mean you already Diver Layer.
 
