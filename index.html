@@ -4,7 +4,413 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korosoft - Productivity Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: #0d0d0d;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        aside {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0d0d0d;
+            border-right: 1px solid #333;
+            padding-top: 4rem;
+            transition: transform 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        aside.hidden {
+            transform: translateX(-100%);
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            color: #b0b0b0;
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #1a1a1a;
+            color: #fff;
+            border-left-color: #666;
+        }
+
+        .nav-category {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 1.5rem;
+        }
+
+        main {
+            margin-left: 280px;
+            padding: 2.5rem 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.expanded {
+            margin-left: 0;
+        }
+
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .dwm-description {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #555;
+        }
+
+        .dwm-description p {
+            color: #b0b0b0;
+        }
+
+        .dwm-section {
+            margin-bottom: 4rem;
+        }
+
+        .dwm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dwm-card {
+            background: #252525;
+            border-left: 4px solid;
+            padding: 2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .dwm-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            background: #2a2a2a;
+        }
+
+        .dwm-card.daily {
+            border-left-color: #ff6b35;
+        }
+
+        .dwm-card.weekly {
+            border-left-color: #7b68ee;
+        }
+
+        .dwm-card.monthly {
+            border-left-color: #888;
+        }
+
+        .dwm-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .dwm-card p {
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        .dwm-stat {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #666;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dwm-label {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .quick-access {
+            margin-bottom: 3rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #555;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            background: #2a2a2a;
+        }
+
+        .card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .card-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-list li {
+            padding: 0.8rem 0;
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .card-button {
+            padding: 0.7rem 1.5rem;
+            background: #333;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .card-button:hover {
+            background: #444;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 2.5rem;
+            max-width: 90%;
+            width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 300;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #e0e0e0;
+        }
+
+        .modal-list {
+            list-style: none;
+        }
+
+        .modal-list li {
+            padding: 1.2rem;
+            background: #1a1a1a;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            color: #e0e0e0;
+        }
+
+        .modal-list strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            aside {
+                width: 240px;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .dwm-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            aside {
+                width: 200px;
+            }
+
+            main {
+                padding: 1rem 0.8rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .dwm-card {
+                padding: 1.5rem;
+            }
+
+            .dwm-stat {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .modal {
+                padding: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -25,7 +431,6 @@
     </aside>
 
     <main id="main">
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
                 <h1>Welcome to Korosoft</h1>
@@ -33,7 +438,6 @@
             </div>
         </section>
 
-        <!-- DWM Philosophy Section -->
         <section class="dwm-section">
             <h2 class="section-title">DWM Philosophy</h2>
             <div class="dwm-description">
@@ -64,7 +468,6 @@
             </div>
         </section>
 
-        <!-- Quick Access Section -->
         <section class="quick-access">
             <h2 class="section-title">Quick Access</h2>
             <div class="cards-grid">
@@ -95,10 +498,8 @@
         </section>
     </main>
 
-    <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Modals -->
     <div class="modal" id="designsModal">
         <div class="modal-header">
             <h2>Top 5 Designs</h2>
@@ -127,6 +528,640 @@
         </ul>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            main.classList.toggle('expanded');
+        });
+
+        main.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('hidden');
+                main.classList.remove('expanded');
+            }
+        });
+
+        function openModal(type) {
+            const modalId = type === 'designs' ? 'designsModal' : 'ostModal';
+            document.getElementById(modalId).classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(type) {
+            const modalId = type === 'designs' ? 'designsModal' : 'ostModal';
+            document.getElementById(modalId).classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeAllModals() {
+            document.getElementById('designsModal').classList.remove('active');
+            document.getElementById('ostModal').classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        overlay.addEventListener('click', closeAllModals);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAllModals();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('hidden');
+                main.classList.remove('expanded');
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korosoft - Productivity Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: #0d0d0d;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        aside {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0d0d0d;
+            border-right: 1px solid #333;
+            padding-top: 4rem;
+            transition: transform 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        aside.hidden {
+            transform: translateX(-100%);
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            color: #b0b0b0;
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #1a1a1a;
+            color: #fff;
+            border-left-color: #666;
+        }
+
+        .nav-category {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 1.5rem;
+        }
+
+        main {
+            margin-left: 280px;
+            padding: 2.5rem 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.expanded {
+            margin-left: 0;
+        }
+
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .dwm-description {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #555;
+        }
+
+        .dwm-description p {
+            color: #b0b0b0;
+        }
+
+        .dwm-section {
+            margin-bottom: 4rem;
+        }
+
+        .dwm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dwm-card {
+            background: #252525;
+            border-left: 4px solid;
+            padding: 2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .dwm-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            background: #2a2a2a;
+        }
+
+        .dwm-card.daily {
+            border-left-color: #ff6b35;
+        }
+
+        .dwm-card.weekly {
+            border-left-color: #7b68ee;
+        }
+
+        .dwm-card.monthly {
+            border-left-color: #888;
+        }
+
+        .dwm-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .dwm-card p {
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        .dwm-stat {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #666;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dwm-label {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .quick-access {
+            margin-bottom: 3rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #555;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            background: #2a2a2a;
+        }
+
+        .card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .card-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-list li {
+            padding: 0.8rem 0;
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .card-button {
+            padding: 0.7rem 1.5rem;
+            background: #333;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .card-button:hover {
+            background: #444;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 2.5rem;
+            max-width: 90%;
+            width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 300;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #e0e0e0;
+        }
+
+        .modal-list {
+            list-style: none;
+        }
+
+        .modal-list li {
+            padding: 1.2rem;
+            background: #1a1a1a;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            color: #e0e0e0;
+        }
+
+        .modal-list strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            aside {
+                width: 240px;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .dwm-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            aside {
+                width: 200px;
+            }
+
+            main {
+                padding: 1rem 0.8rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .dwm-card {
+                padding: 1.5rem;
+            }
+
+            .dwm-stat {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .modal {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">KOROSOFT</div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </header>
+
+    <aside id="sidebar">
+        <div class="nav-category">Navigation</div>
+        <a href="#" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Designs</a>
+        <a href="#" class="nav-item">OST Library</a>
+        <a href="#" class="nav-item">Quest Planner</a>
+        <div class="nav-category">Resources</div>
+        <a href="#" class="nav-item">Guide Book</a>
+        <a href="#" class="nav-item">About</a>
+        <a href="#" class="nav-item">Contact</a>
+    </aside>
+
+    <main id="main">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Korosoft</h1>
+                <p>Productivity isn't about doing more. It's about maintaining momentum. Korosoft combines structured planning, adaptive difficulty, and thematic soundtracks into a single workspace where progress feels measurable, immersive, and sustainable.</p>
+            </div>
+        </section>
+
+        <section class="dwm-section">
+            <h2 class="section-title">DWM Philosophy</h2>
+            <div class="dwm-description">
+                <p>A structured planning framework that separates execution, rhythm, and recovery into three different perspectives.</p>
+            </div>
+
+            <div class="dwm-cards">
+                <div class="dwm-card daily">
+                    <h3>Daily</h3>
+                    <p>Action. Full detail of all tasks and concrete actions. The tactical layer where work happens.</p>
+                    <div class="dwm-stat">12</div>
+                    <p class="dwm-label">Active Tasks</p>
+                </div>
+
+                <div class="dwm-card weekly">
+                    <h3>Weekly</h3>
+                    <p>Rhyme. Condensed schedule, reminders pulled from daily detail. The strategic overview layer.</p>
+                    <div class="dwm-stat">4</div>
+                    <p class="dwm-label">Milestones</p>
+                </div>
+
+                <div class="dwm-card monthly">
+                    <h3>Monthly</h3>
+                    <p>Recovery. Zero pressure, rest and refresh cycle. The regeneration layer.</p>
+                    <div class="dwm-stat">3</div>
+                    <p class="dwm-label">Rest Days</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-access">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>Top 5 Designs</h4>
+                    <ul class="card-list">
+                        <li>1. Blue Mist</li>
+                        <li>2. Sakura Breeze</li>
+                        <li>3. Desert Ember</li>
+                        <li>4. Mint Horizon</li>
+                        <li>5. Midnight Ruins</li>
+                    </ul>
+                    <button class="card-button" onclick="openModal('designs')">View Details</button>
+                </div>
+
+                <div class="card">
+                    <h4>Top 5 OST</h4>
+                    <ul class="card-list">
+                        <li>1. Ethereal Dawn</li>
+                        <li>2. Silent Grind</li>
+                        <li>3. Neon Highway</li>
+                        <li>4. Calm Before</li>
+                        <li>5. We Made It Home</li>
+                    </ul>
+                    <button class="card-button" onclick="openModal('ost')">View Details</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="modal" id="designsModal">
+        <div class="modal-header">
+            <h2>Top 5 Designs</h2>
+            <button class="modal-close" onclick="closeModal('designs')">×</button>
+        </div>
+        <ul class="modal-list">
+            <li><strong>1. Blue Mist</strong> - Serene and calming aesthetic</li>
+            <li><strong>2. Sakura Breeze</strong> - Cherry blossom inspired palette</li>
+            <li><strong>3. Desert Ember</strong> - Warm earthy tones</li>
+            <li><strong>4. Mint Horizon</strong> - Fresh and modern vibes</li>
+            <li><strong>5. Midnight Ruins</strong> - Dark moody atmosphere</li>
+        </ul>
+    </div>
+
+    <div class="modal" id="ostModal">
+        <div class="modal-header">
+            <h2>Top 5 OST</h2>
+            <button class="modal-close" onclick="closeModal('ost')">×</button>
+        </div>
+        <ul class="modal-list">
+            <li><strong>1. Ethereal Dawn</strong> - Inspiring morning soundtrack</li>
+            <li><strong>2. Silent Grind</strong> - Focus and concentration</li>
+            <li><strong>3. Neon Highway</strong> - Night working energy</li>
+            <li><strong>4. Calm Before</strong> - Meditation and rest</li>
+            <li><strong>5. We Made It Home</strong> - Completion and reflection</li>
+        </ul>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            main.classList.toggle('expanded');
+        });
+
+        main.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('hidden');
+                main.classList.remove('expanded');
+            }
+        });
+
+        function openModal(type) {
+            const modalId = type === 'designs' ? 'designsModal' : 'ostModal';
+            document.getElementById(modalId).classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(type) {
+            const modalId = type === 'designs' ? 'designsModal' : 'ostModal';
+            document.getElementById(modalId).classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeAllModals() {
+            document.getElementById('designsModal').classList.remove('active');
+            document.getElementById('ostModal').classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        overlay.addEventListener('click', closeAllModals);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAllModals();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('hidden');
+                main.classList.remove('expanded');
+            }
+        });
+    </script>
 </body>
 </html>
