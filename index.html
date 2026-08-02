@@ -1,213 +1,132 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quest Planner Ecosystem</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korosoft - Productivity Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <div class="logo">KOROSOFT</div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </header>
 
-<!-- ══ INTRO SCREEN ══ -->
-<div id="intro">
-  <div class="intro-inner">
-    <div class="intro-label" id="introLabel"></div>
-    <div class="intro-title">
-      <span id="introText"></span><span class="cursor" id="introCursor"></span>
-    </div>
-  </div>
-  <div class="intro-scanline" id="introScanline"></div>
-</div>
+    <aside id="sidebar">
+        <div class="nav-category">Navigation</div>
+        <a href="#" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Designs</a>
+        <a href="#" class="nav-item">OST Library</a>
+        <a href="#" class="nav-item">Quest Planner</a>
+        <div class="nav-category">Resources</div>
+        <a href="#" class="nav-item">Guide Book</a>
+        <a href="#" class="nav-item">About</a>
+        <a href="#" class="nav-item">Contact</a>
+    </aside>
 
-<!-- Corner logo -->
-<div id="corner-logo">
-  <div class="cl-top">QUEST PLANNER</div>
-  <div class="cl-main">ECOSYSTEM</div>
-</div>
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Korosoft</h1>
+                <p>Productivity isn't about doing more. It's about maintaining momentum. Korosoft combines structured planning, adaptive difficulty, and thematic soundtracks into a single workspace where progress feels measurable, immersive, and sustainable.</p>
+            </div>
+        </section>
 
-<!-- Animated BG -->
-<div id="main-bg">
-  <div class="grid-canvas"></div>
-  <div class="grid-glow"></div>
-</div>
+        <!-- DWM Philosophy Section -->
+        <section class="dwm-section">
+            <h2 class="section-title">DWM Philosophy</h2>
+            <div class="dwm-description">
+                <p>A structured planning framework that separates execution, rhythm, and recovery into three different perspectives.</p>
+            </div>
 
-<!-- ══ MAIN CONTENT ══ -->
-<div id="main-content">
+            <div class="dwm-cards">
+                <div class="dwm-card daily">
+                    <h3>Daily</h3>
+                    <p>Action. Full detail of all tasks and concrete actions. The tactical layer where work happens.</p>
+                    <div class="dwm-stat">12</div>
+                    <p class="dwm-label">Active Tasks</p>
+                </div>
 
-  <nav>
-    <ul class="nav-links">
-      <li><a href="#hero" class="nav-link-item nav-active" data-section="hero">Home</a></li>
-      <li>
-        <button class="nav-show-all" id="showAllBtn" onclick="toggleModal()">
-          Show all <span class="nav-show-all-arrow">&#9660;</span>
-        </button>
-      </li>
-      <li><a href="#story" class="nav-link-item" data-section="story">Story</a></li>
-    </ul>
-  </nav>
+                <div class="dwm-card weekly">
+                    <h3>Weekly</h3>
+                    <p>Rhyme. Condensed schedule, reminders pulled from daily detail. The strategic overview layer.</p>
+                    <div class="dwm-stat">4</div>
+                    <p class="dwm-label">Milestones</p>
+                </div>
 
-  <!-- SHOW ALL MODAL -->
-  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+                <div class="dwm-card monthly">
+                    <h3>Monthly</h3>
+                    <p>Recovery. Zero pressure, rest and refresh cycle. The regeneration layer.</p>
+                    <div class="dwm-stat">3</div>
+                    <p class="dwm-label">Rest Days</p>
+                </div>
+            </div>
+        </section>
 
-  <!-- PREVIEW CARD (kiri dari modal) -->
-  <div class="preview-card" id="previewCard" onmouseenter="clearTimeout(previewTimeout)" onmouseleave="hidePreview()">
-    <div class="pv-img-wrap">
-      <img id="pvImg" src="" alt="">
-      <div class="pv-img-placeholder" id="pvImgPlaceholder">
-        <span class="pv-placeholder-symbol" id="pvSymbolPlaceholder"></span>
-      </div>
-    </div>
-    <div class="pv-body">
-      <div class="pv-name" id="pvName"></div>
-      <div class="pv-sub" id="pvSub"></div>
-      <div class="pv-props">
-        <div class="pv-prop">
-          <span class="pv-prop-label">DQ</span>
-          <span class="pv-prop-val" id="pvDq"></span>
+        <!-- Quick Access Section -->
+        <section class="quick-access">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>Top 5 Designs</h4>
+                    <ul class="card-list">
+                        <li>1. Blue Mist</li>
+                        <li>2. Sakura Breeze</li>
+                        <li>3. Desert Ember</li>
+                        <li>4. Mint Horizon</li>
+                        <li>5. Midnight Ruins</li>
+                    </ul>
+                    <button class="card-button" onclick="openModal('designs')">View Details</button>
+                </div>
+
+                <div class="card">
+                    <h4>Top 5 OST</h4>
+                    <ul class="card-list">
+                        <li>1. Ethereal Dawn</li>
+                        <li>2. Silent Grind</li>
+                        <li>3. Neon Highway</li>
+                        <li>4. Calm Before</li>
+                        <li>5. We Made It Home</li>
+                    </ul>
+                    <button class="card-button" onclick="openModal('ost')">View Details</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Modals -->
+    <div class="modal" id="designsModal">
+        <div class="modal-header">
+            <h2>Top 5 Designs</h2>
+            <button class="modal-close" onclick="closeModal('designs')">×</button>
         </div>
-        <div class="pv-prop">
-          <span class="pv-prop-label">Vibe</span>
-          <span class="pv-prop-val" id="pvVibe"></span>
+        <ul class="modal-list">
+            <li><strong>1. Blue Mist</strong> - Serene and calming aesthetic</li>
+            <li><strong>2. Sakura Breeze</strong> - Cherry blossom inspired palette</li>
+            <li><strong>3. Desert Ember</strong> - Warm earthy tones</li>
+            <li><strong>4. Mint Horizon</strong> - Fresh and modern vibes</li>
+            <li><strong>5. Midnight Ruins</strong> - Dark moody atmosphere</li>
+        </ul>
+    </div>
+
+    <div class="modal" id="ostModal">
+        <div class="modal-header">
+            <h2>Top 5 OST</h2>
+            <button class="modal-close" onclick="closeModal('ost')">×</button>
         </div>
-        <div class="pv-prop">
-          <span class="pv-prop-label">Symbol</span>
-          <span class="pv-prop-val" id="pvSymbol"></span>
-        </div>
-        <div class="pv-prop">
-          <span class="pv-prop-label">Date</span>
-          <span class="pv-prop-val" id="pvDate"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-panel" id="modalPanel">
-    <div class="modal-header">
-      <span class="modal-header-title">Show All</span>
-      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label design">Design</div>
-      <div class="modal-list" id="modalDesignList"></div>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label ost">OST</div>
-      <div class="modal-list" id="modalOstList"></div>
-    </div>
-  </div>
-
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-eyebrow">Quest Planner Ecosystem</div>
-    <h1>
-      Satu sistem.<br>
-      <span class="hl">Tiga ritme.</span><br>
-      <span class="hl2">Tanpa batas.</span>
-    </h1>
-    <p class="hero-desc">
-      Quest Planner adalah ekosistem perencanaan pribadi yang bekerja dalam tiga lapisan waktu.
-      <strong>Daily</strong> untuk aksi, <strong>Weekly</strong> untuk ritme, <strong>Monthly</strong> untuk pemulihan.
-      Dibangun dari referensi sistem produktivitas, desain game, dan arsitektur OST.
-    </p>
-
-    <div class="hero-services">
-      <div class="service-chip"><span class="dot"></span> Struktur Quest Harian</div>
-      <div class="service-chip"><span class="dot o"></span> Pemetaan Ritme Mingguan</div>
-      <div class="service-chip"><span class="dot b"></span> Siklus Pemulihan Bulanan</div>
+        <ul class="modal-list">
+            <li><strong>1. Ethereal Dawn</strong> - Inspiring morning soundtrack</li>
+            <li><strong>2. Silent Grind</strong> - Focus and concentration</li>
+            <li><strong>3. Neon Highway</strong> - Night working energy</li>
+            <li><strong>4. Calm Before</strong> - Meditation and rest</li>
+            <li><strong>5. We Made It Home</strong> - Completion and reflection</li>
+        </ul>
     </div>
 
-    <div class="hero-ref">Referensi: GTD × JRPG Progression × OST Mood Architecture</div>
-
-    <div class="scroll-hint">
-      <div class="scroll-hint-line"></div>
-      SCROLL
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- RANKINGS -->
-  <section class="rankings-section" id="rankings">
-    <div class="rank-col reveal">
-      <div class="rank-header">
-        <span class="rank-number">01 //</span>
-        <span class="rank-title">Top 10 Tema Desain</span>
-        <span class="rank-tag">DESIGN</span>
-      </div>
-      <div class="rank-list"></div>
-    </div>
-
-    <div class="rank-col reveal" style="transition-delay:0.15s">
-      <div class="rank-header">
-        <span class="rank-number">02 //</span>
-        <span class="rank-title">Top 10 Tema OST</span>
-        <span class="rank-tag ost">OST</span>
-      </div>
-      <div class="rank-list ost-list"></div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- STORY -->
-  <section class="story-section" id="story">
-    <div class="story-header reveal">
-      <div class="story-eyebrow">Sistem // Story</div>
-      <div class="story-title">Tiga lapisan <span class="hl">waktu</span> lu.</div>
-    </div>
-
-    <div class="story-grid reveal" style="transition-delay:0.1s">
-
-      <div class="story-card">
-        <div class="story-card-glow"></div>
-        <div class="story-card-tag">Daily</div>
-        <div class="story-card-keyword">Action</div>
-        <div class="story-card-name">Hari ini bergerak</div>
-        <div class="story-card-desc">
-          Daily adalah lapisan <em>eksekusi</em>. Di sini lu menentukan quest hari ini, bukan besok.
-          Satu fokus utama, tiga tugas pendukung. Tidak perlu sempurna, cukup <em>bergerak</em>.
-          Setiap hari adalah satu chapter kecil dari arc yang lebih besar.
-        </div>
-        <div class="story-card-number">D</div>
-      </div>
-
-      <div class="story-card">
-        <div class="story-card-glow"></div>
-        <div class="story-card-tag">Weekly</div>
-        <div class="story-card-keyword">Ritme</div>
-        <div class="story-card-name">Minggu ini berpola</div>
-        <div class="story-card-desc">
-          Weekly adalah lapisan <em>ritme</em>. Lu tidak sprint setiap hari, lu membangun <em>pola</em>.
-          Review Senin, eksekusi Selasa-Jumat, refleksi Sabtu. Mingguan yang baik bukan yang sibuk,
-          tapi yang <em>konsisten</em>.
-        </div>
-        <div class="story-card-number">W</div>
-      </div>
-
-      <div class="story-card">
-        <div class="story-card-glow"></div>
-        <div class="story-card-tag">Monthly</div>
-        <div class="story-card-keyword">Recovery</div>
-        <div class="story-card-name">Bulan ini pulih</div>
-        <div class="story-card-desc">
-          Monthly adalah lapisan <em>pemulihan</em>. Setiap akhir bulan bukan tentang evaluasi keras,
-          tapi tentang <em>mengisi ulang</em>. Apa yang habis? Apa yang tumbuh? Sistem yang baik tahu
-          kapan harus <em>berhenti sejenak</em>.
-        </div>
-        <div class="story-card-number">M</div>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-left">QUEST PLANNER ECOSYSTEM // v1.0</div>
-    <div class="footer-right">Dibangun dengan tiga ritme waktu.</div>
-  </footer>
-
-</div><!-- end main-content -->
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
