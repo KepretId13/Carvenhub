@@ -22,15 +22,16 @@
 
 			<!-- Primary workspace destinations: overview, all templates, and favorites. -->
 			<div class="workspace-label">YOUR WORKSPACE</div>
-			<nav class="side-nav">
-				<a class="nav-item active" href="#home" aria-current="page"><span class="nav-icon">⌂</span>Overview</a>
-				<a class="nav-item" href="#catalog"><span class="nav-icon">▦</span>All templates <span class="nav-count" id="sidebar-count">08</span></a>
-				<a class="nav-item" href="#catalog" data-sidebar-filter="favorites"><span class="nav-icon">♡</span>Favorites</a>
+			<nav class="side-nav primary-nav" aria-label="Workspace views">
+				<a class="nav-item active" href="#home" data-page-view="overview" aria-current="page"><span class="nav-icon">⌂</span>Overview</a>
+				<a class="nav-item" href="#catalog" data-page-view="templates"><span class="nav-icon">▦</span>All templates <span class="nav-count" id="sidebar-count">08</span></a>
+				<a class="nav-item" href="#catalog" data-page-view="favorites"><span class="nav-icon">♡</span>Favorites</a>
 			</nav>
 
 			<!-- Collection links offer a second way to filter templates by category. -->
 			<div class="side-section-head"><span>COLLECTIONS</span><button class="icon-button small" id="new-collection" aria-label="Add collection" title="Add collection">+</button></div>
 			<nav class="side-nav collection-nav" aria-label="Template collections">
+				<a class="nav-item" href="#catalog" data-filter="visual"><span class="collection-dot dot-blue"></span>Visuals</a>
 				<a class="nav-item" href="#catalog" data-filter="social"><span class="collection-dot dot-coral"></span>Social & content</a>
 				<a class="nav-item" href="#catalog" data-filter="business"><span class="collection-dot dot-blue"></span>Business</a>
 				<a class="nav-item" href="#catalog" data-filter="lifestyle"><span class="collection-dot dot-green"></span>Lifestyle</a>
@@ -61,6 +62,7 @@
 				</div>
 			</header>
 
+			<div id="overview-view">
 			<!-- Welcome area introduces the dashboard and starts the add-template flow. -->
 			<section class="welcome-row" aria-labelledby="page-title">
 				<div>
@@ -109,11 +111,12 @@
 				</div>
 				<div class="featured-side"><span>THIS WEEK'S<br>FAVORITE</span><div class="featured-arrows"><button aria-label="Previous feature" disabled>←</button><button aria-label="Next feature">→</button></div></div>
 			</section>
+			</div>
 
 			<!-- Catalog controls and cards: project.js handles search, sorting, and filters. -->
-			<section class="catalog-section" id="catalog" aria-labelledby="catalog-heading">
+			<section class="catalog-section" id="catalog" aria-labelledby="catalog-heading" hidden>
 				<div class="catalog-heading-row">
-					<div><p class="eyebrow"><span class="eyebrow-line"></span>MADE BY YOU, KEPT HERE</p><h2 id="catalog-heading">Your templates <span id="catalog-count">(08)</span></h2></div>
+					<div><p class="eyebrow"><span class="eyebrow-line"></span>MADE BY YOU, KEPT HERE</p><h2 id="catalog-heading"><span id="catalog-title">Your templates</span> <span id="catalog-count">(08)</span></h2></div>
 					<div class="catalog-tools">
 						<label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search-input" type="search" placeholder="Search templates" aria-label="Search templates"><kbd>/</kbd></label>
 						<label class="sort-control"><span class="sr-only">Sort templates</span><select id="sort-select"><option value="recent">Recently added</option><option value="az">Name A–Z</option><option value="favorites">Favorites first</option></select></label>
@@ -121,6 +124,7 @@
 				</div>
 				<div class="filter-row" role="group" aria-label="Filter templates by category">
 					<button class="filter-chip selected" data-filter="all">Everything <span>08</span></button>
+					<button class="filter-chip" data-filter="visual">Visuals <span>00</span></button>
 					<button class="filter-chip" data-filter="social">Social <span>02</span></button>
 					<button class="filter-chip" data-filter="business">Business <span>02</span></button>
 					<button class="filter-chip" data-filter="lifestyle">Lifestyle <span>02</span></button>
@@ -128,7 +132,8 @@
 					<button class="filter-chip favorites-filter" data-filter="favorites">♡ Favorites</button>
 				</div>
 
-				<div class="template-grid" id="template-grid">
+				<div class="template-grid" id="template-grid"></div>
+				<template id="starter-templates">
 					<article class="template-card" data-id="weekly-reset" data-category="planning" data-name="The weekly reset kit" data-date="8" data-favorite="true">
 						<button class="favorite-button is-favorite" aria-label="Remove The weekly reset kit from favorites" aria-pressed="true">♥</button>
 						<button class="preview-button" data-open-template="weekly-reset" aria-label="Preview The weekly reset kit"><div class="preview preview-planner"><span class="preview-eyebrow">A LITTLE SPACE TO</span><strong>RESET<br>YOUR WEEK</strong><span class="planner-grid"><i></i><i></i><i></i><i></i></span><span class="preview-sun"></span><span class="preview-label">WEEKLY PLANNER · 2025</span></div></button>
@@ -177,7 +182,7 @@
 						<div class="template-meta"><div><span class="template-category">PLANNING</span><h3>Project road map</h3></div><button class="more-button" aria-label="More options for Project road map">···</button></div>
 						<div class="template-footer"><span class="file-type"><i class="type-dot type-figma"></i>Figma</span><span>Edited 2 weeks ago</span></div>
 					</article>
-				</div>
+				</template>
 				<div class="empty-state" id="empty-state" hidden><span>✳</span><h3>No templates found</h3><p>Try another search or choose a different collection.</p><button class="text-button" id="clear-filters">Clear filters ↗</button></div>
 			</section>
 			<footer class="page-footer"><span>MADE FOR YOUR IDEAS</span><span>FORMA LIBRARY <i>✳</i> 2025</span></footer>
