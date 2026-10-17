@@ -108,3 +108,18 @@ h1, .dialog-content h2 { margin: 0; font: 600 37px/.99 "Space Grotesk", sans-ser
 #open-destination[aria-disabled="true"] { background: #b9b8b1; cursor: default; pointer-events: none; }
 .remove-link-button { padding: 8px 0; border: 0; background: none; color: #9d5749; font-size: 10px; font-weight: 600; cursor: pointer; }
 .remove-link-button[hidden] { display: none; }
+.asset-template-card .preview { aspect-ratio: 3 / 4; }
+.preview-asset { padding: 0; background: #eef0f5; }
+.preview-asset img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+body[data-current-view="favorites"] .filter-row { display: none; }
+
+@media (max-width: 760px) {
+  .sidebar { height: auto; flex-direction: column; align-items: stretch; padding: 12px 18px 0; }
+  .sidebar .brand { align-self: flex-start; }
+  .sidebar .workspace-label, .sidebar .side-section-head, .sidebar .collection-nav, .sidebar .sidebar-bottom { display: none; }
+  .sidebar .primary-nav { display: flex; width: 100%; gap: 4px; margin-top: 11px; }
+  .primary-nav .nav-item { min-width: 0; flex: 1; justify-content: center; gap: 5px; padding: 0 5px; font-size: 10px; }
+  .primary-nav .nav-icon { width: auto; }
+  .primary-nav .nav-count { margin-left: 0; }
+}
+
