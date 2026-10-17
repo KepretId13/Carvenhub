@@ -28,15 +28,9 @@
 				<a class="nav-item" href="#catalog" data-page-view="favorites"><span class="nav-icon">♡</span>Favorites</a>
 			</nav>
 
-			<!-- Collection links offer a second way to filter templates by category. -->
-			<div class="side-section-head"><span>COLLECTIONS</span><button class="icon-button small" id="new-collection" aria-label="Add collection" title="Add collection">+</button></div>
-			<nav class="side-nav collection-nav" aria-label="Template collections">
-				<a class="nav-item" href="#catalog" data-filter="visual"><span class="collection-dot dot-blue"></span>Visuals</a>
-				<a class="nav-item" href="#catalog" data-filter="social"><span class="collection-dot dot-coral"></span>Social & content</a>
-				<a class="nav-item" href="#catalog" data-filter="business"><span class="collection-dot dot-blue"></span>Business</a>
-				<a class="nav-item" href="#catalog" data-filter="lifestyle"><span class="collection-dot dot-green"></span>Lifestyle</a>
-				<a class="nav-item" href="#catalog" data-filter="planning"><span class="collection-dot dot-yellow"></span>Planning</a>
-			</nav>
+			<!-- Your categories are created by you and saved in this browser. -->
+			<div class="side-section-head"><span>MY CATEGORIES</span><button class="icon-button small" id="new-collection" aria-label="Create category" title="Create category">+</button></div>
+			<nav class="side-nav collection-nav" aria-label="Your custom categories"></nav>
 
 			<!-- Workspace status and profile stay at the bottom of the desktop sidebar. -->
 			<div class="sidebar-bottom">
@@ -79,38 +73,26 @@
 				<div class="stat-item">
                     <span class="stat-icon stat-icon-lime">▦</span>
                     <div>
-                        <strong id="total-stat">08</strong>
+						<strong id="total-stat">23</strong>
                         <span>Templates saved</span>
                     </div>
                 </div>
 				<div class="stat-item"><span class="stat-icon stat-icon-coral">♡</span>
-                    <div><strong id="favorite-stat">03</strong>
+					<div><strong id="favorite-stat">00</strong>
                         <span>Favorites</span>
                     </div>
                 </div>
 				<div class="stat-item"><span class="stat-icon stat-icon-blue">↗</span>
-                    <div><strong>06</strong>
-                        <span>Collections</span>
+					<div><strong id="category-stat">00</strong>
+						<span>Your categories</span>
                     </div>
                 </div>
 				<div class="stat-note"><span class="sparkle">✳</span><span>Good things take shape<br><strong>one template at a time.</strong></span></div>
 			</section>
 
-			<!-- Featured template is a shortcut into the same details dialog as a card. -->
-			<section class="featured-section" aria-labelledby="featured-heading">
-				<div class="featured-copy">
-					<span class="featured-kicker">PICK UP WHERE YOU LEFT OFF</span>
-					<h2 id="featured-heading">The weekly<br>reset kit</h2>
-					<p>Your all-in-one plan for a<br>more intentional week.</p>
-					<button class="text-button" data-open-template="weekly-reset">Open template <span>↗</span></button>
-					<span class="featured-index">01 <span>/</span> 04</span>
-				</div>
-				<div class="featured-art" aria-hidden="true">
-					<div class="art-sun"></div><span class="art-scribble">a fresh<br>start</span>
-					<div class="art-paper"><span class="paper-label">MONDAY RESET</span><span class="paper-title">make room<br>for good things</span><span class="paper-lines"></span><span class="paper-checks"><i>✓</i><i></i><i></i></span><span class="paper-sticker">YOU<br>GOT<br>THIS</span></div>
-					<div class="art-circle"></div><span class="art-star">✳</span>
-				</div>
-				<div class="featured-side"><span>THIS WEEK'S<br>FAVORITE</span><div class="featured-arrows"><button aria-label="Previous feature" disabled>←</button><button aria-label="Next feature">→</button></div></div>
+			<section class="library-overview-callout" aria-labelledby="library-callout-heading">
+				<div><span class="featured-kicker">YOUR WORKSPACE, YOUR WAY</span><h2 id="library-callout-heading">Build your own library.</h2><p>Browse your artwork, make categories, and organize things how you like.</p></div>
+				<button class="text-button" data-page-view="templates">Browse assets <span>↗</span></button>
 			</section>
 			</div>
 
@@ -124,66 +106,11 @@
 					</div>
 				</div>
 				<div class="filter-row" role="group" aria-label="Filter templates by category">
-					<button class="filter-chip selected" data-filter="all">Everything <span>08</span></button>
-					<button class="filter-chip" data-filter="visual">Visuals <span>00</span></button>
-					<button class="filter-chip" data-filter="social">Social <span>02</span></button>
-					<button class="filter-chip" data-filter="business">Business <span>02</span></button>
-					<button class="filter-chip" data-filter="lifestyle">Lifestyle <span>02</span></button>
-					<button class="filter-chip" data-filter="planning">Planning <span>02</span></button>
+					<button class="filter-chip selected" data-filter="all">Everything <span>23</span></button>
 					<button class="filter-chip favorites-filter" data-filter="favorites">♡ Favorites</button>
 				</div>
 
 				<div class="template-grid" id="template-grid"></div>
-				<template id="starter-templates">
-					<article class="template-card" data-id="weekly-reset" data-category="planning" data-name="The weekly reset kit" data-date="8" data-favorite="true">
-						<button class="favorite-button is-favorite" aria-label="Remove The weekly reset kit from favorites" aria-pressed="true">♥</button>
-						<button class="preview-button" data-open-template="weekly-reset" aria-label="Preview The weekly reset kit"><div class="preview preview-planner"><span class="preview-eyebrow">A LITTLE SPACE TO</span><strong>RESET<br>YOUR WEEK</strong><span class="planner-grid"><i></i><i></i><i></i><i></i></span><span class="preview-sun"></span><span class="preview-label">WEEKLY PLANNER · 2025</span></div></button>
-						<div class="template-meta"><div><span class="template-category">PLANNING</span><h3>The weekly reset kit</h3></div><button class="more-button" aria-label="More options for The weekly reset kit">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-notion"></i>Notion</span><span>Edited 2h ago</span></div>
-					</article>
-					<article class="template-card" data-id="social-starter" data-category="social" data-name="Social launch starter pack" data-date="7" data-favorite="false">
-						<button class="favorite-button" aria-label="Add Social launch starter pack to favorites" aria-pressed="false">♡</button>
-						<button class="preview-button" data-open-template="social-starter" aria-label="Preview Social launch starter pack"><div class="preview preview-social"><span class="social-topline">THE CREATOR KIT <span>№ 04</span></span><strong>SHOW<br>YOUR<br>WORK<span>.</span></strong><span class="social-shape shape-one"></span><span class="social-shape shape-two"></span><span class="social-caption">30 DAYS OF CONTENT</span></div></button>
-						<div class="template-meta"><div><span class="template-category">SOCIAL & CONTENT</span><h3>Social launch starter pack</h3></div><button class="more-button" aria-label="More options for Social launch starter pack">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-canva"></i>Canva</span><span>Edited yesterday</span></div>
-					</article>
-					<article class="template-card" data-id="brand-board" data-category="business" data-name="Little brand moodboard" data-date="6" data-favorite="true">
-						<button class="favorite-button is-favorite" aria-label="Remove Little brand moodboard from favorites" aria-pressed="true">♥</button>
-						<button class="preview-button" data-open-template="brand-board" aria-label="Preview Little brand moodboard"><div class="preview preview-brand"><span class="brand-heading">MORNING<br>STUDIO</span><span class="brand-subhead">A BRAND MOODBOARD</span><div class="brand-swatches"><i></i><i></i><i></i><i></i></div><span class="brand-serif">softly<br>considered</span><span class="brand-flower">✳</span></div></button>
-						<div class="template-meta"><div><span class="template-category">BUSINESS</span><h3>Little brand moodboard</h3></div><button class="more-button" aria-label="More options for Little brand moodboard">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-figma"></i>Figma</span><span>Edited 3 days ago</span></div>
-					</article>
-					<article class="template-card" data-id="meal-planner" data-category="lifestyle" data-name="Good food, no fuss" data-date="5" data-favorite="false">
-						<button class="favorite-button" aria-label="Add Good food, no fuss to favorites" aria-pressed="false">♡</button>
-						<button class="preview-button" data-open-template="meal-planner" aria-label="Preview Good food, no fuss"><div class="preview preview-meal"><span class="meal-tag">THE EVERYDAY EDIT</span><strong>GOOD FOOD,<br>NO FUSS.</strong><span class="meal-plate"><i></i><i></i><i></i></span><span class="meal-note">a week of easy meals</span><span class="meal-date">01 — 07</span></div></button>
-						<div class="template-meta"><div><span class="template-category">LIFESTYLE</span><h3>Good food, no fuss</h3></div><button class="more-button" aria-label="More options for Good food, no fuss">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-notion"></i>Notion</span><span>Edited 4 days ago</span></div>
-					</article>
-					<article class="template-card" data-id="client-welcome" data-category="business" data-name="The client welcome suite" data-date="4" data-favorite="false">
-						<button class="favorite-button" aria-label="Add The client welcome suite to favorites" aria-pressed="false">♡</button>
-						<button class="preview-button" data-open-template="client-welcome" aria-label="Preview The client welcome suite"><div class="preview preview-client"><span class="client-mark">FORM & FIELD</span><span class="client-rule"></span><span class="client-kicker">A NOTE FOR YOU</span><strong>LET'S MAKE<br>GOOD WORK.</strong><span class="client-stamp">WELCOME<br>ABOARD</span><span class="client-bottom">YOUR PROJECT STARTS HERE ↗</span></div></button>
-						<div class="template-meta"><div><span class="template-category">BUSINESS</span><h3>The client welcome suite</h3></div><button class="more-button" aria-label="More options for The client welcome suite">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-canva"></i>Canva</span><span>Edited 1 week ago</span></div>
-					</article>
-					<article class="template-card" data-id="content-calendar" data-category="social" data-name="Content, on purpose" data-date="3" data-favorite="true">
-						<button class="favorite-button is-favorite" aria-label="Remove Content, on purpose from favorites" aria-pressed="true">♥</button>
-						<button class="preview-button" data-open-template="content-calendar" aria-label="Preview Content, on purpose"><div class="preview preview-calendar"><span class="calendar-label">A CREATOR'S CALENDAR</span><strong>CONTENT,<br>ON PURPOSE.</strong><div class="calendar-days"><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><b>12</b><b>14</b><b>16</b><b>18</b><b>20</b></div><span class="calendar-flower">✳</span></div></button>
-						<div class="template-meta"><div><span class="template-category">SOCIAL & CONTENT</span><h3>Content, on purpose</h3></div><button class="more-button" aria-label="More options for Content, on purpose">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-notion"></i>Notion</span><span>Edited 1 week ago</span></div>
-					</article>
-					<article class="template-card" data-id="slow-morning" data-category="lifestyle" data-name="A slower morning" data-date="2" data-favorite="false">
-						<button class="favorite-button" aria-label="Add A slower morning to favorites" aria-pressed="false">♡</button>
-						<button class="preview-button" data-open-template="slow-morning" aria-label="Preview A slower morning"><div class="preview preview-morning"><span class="morning-side">SLOW MORNINGS CLUB</span><strong>TAKE<br>YOUR<br>TIME<span>.</span></strong><span class="morning-oval"></span><span class="morning-foot">A GENTLE STARTER GUIDE</span></div></button>
-						<div class="template-meta"><div><span class="template-category">LIFESTYLE</span><h3>A slower morning</h3></div><button class="more-button" aria-label="More options for A slower morning">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-pdf"></i>PDF</span><span>Edited 2 weeks ago</span></div>
-					</article>
-					<article class="template-card" data-id="project-roadmap" data-category="planning" data-name="Project road map" data-date="1" data-favorite="false">
-						<button class="favorite-button" aria-label="Add Project road map to favorites" aria-pressed="false">♡</button>
-						<button class="preview-button" data-open-template="project-roadmap" aria-label="Preview Project road map"><div class="preview preview-roadmap"><span class="roadmap-label">A PLAN THAT MOVES</span><strong>MAKE IT<br>HAPPEN.</strong><div class="roadmap-path"><i></i><i></i><i></i><i></i></div><span class="roadmap-note">IDEA → IN MOTION</span><span class="roadmap-star">✳</span></div></button>
-						<div class="template-meta"><div><span class="template-category">PLANNING</span><h3>Project road map</h3></div><button class="more-button" aria-label="More options for Project road map">···</button></div>
-						<div class="template-footer"><span class="file-type"><i class="type-dot type-figma"></i>Figma</span><span>Edited 2 weeks ago</span></div>
-					</article>
-				</template>
 				<div class="empty-state" id="empty-state" hidden><span>✳</span><h3>No templates found</h3><p>Try another search or choose a different collection.</p><button class="text-button" id="clear-filters">Clear filters ↗</button></div>
 			</section>
 			<footer class="page-footer"><span>MADE FOR YOUR IDEAS</span><span>FORMA LIBRARY <i>✳</i> 2025</span></footer>
@@ -199,11 +126,22 @@
 			<form id="template-form" class="template-form">
 				<label>Template name<input name="name" type="text" placeholder="e.g. Launch day checklist" required maxlength="48"></label>
 				<div class="form-row">
-					<label>Collection<select name="category"><option value="social">Social & content</option><option value="business">Business</option><option value="lifestyle">Lifestyle</option><option value="planning">Planning</option></select></label>
+					<label>Category<select id="template-category" name="category"><option value="">Uncategorized</option></select></label>
 					<label>Format<select name="format"><option>Notion</option><option>Canva</option><option>Figma</option><option>PDF</option></select></label>
 				</div>
 				<label>Template link <span class="optional-label">OPTIONAL</span><input name="url" type="url" placeholder="https://"></label>
 				<button class="primary-button form-submit" type="submit"><span class="button-plus">+</span> Save template</button>
+			</form>
+		</div>
+	</dialog>
+	<dialog class="template-dialog category-dialog" id="category-dialog">
+		<form method="dialog" class="dialog-close-row"><button class="icon-button close-dialog" aria-label="Close category form">×</button></form>
+		<div class="dialog-content">
+			<p class="eyebrow"><span class="eyebrow-line"></span>YOUR ORGANIZATION</p>
+			<h2>New category<span class="title-period">.</span></h2>
+			<form id="category-form" class="template-form">
+				<label>Category name<input name="name" type="text" placeholder="e.g. Brand kits" required maxlength="32"></label>
+				<button class="primary-button form-submit" type="submit"><span class="button-plus">+</span> Create category</button>
 			</form>
 		</div>
 	</dialog>
@@ -213,7 +151,11 @@
 		<div class="dialog-content">
 			<p class="eyebrow"><span class="eyebrow-line"></span>TEMPLATE DETAILS</p>
 			<h2 id="destination-title">Template name<span class="title-period">.</span></h2>
-			<p class="destination-description">Add a destination link to connect this template to your page or product.</p>
+			<p class="destination-description">Assign a category or connect this item to its destination.</p>
+			<form id="category-assignment-form" class="template-form category-assignment-form">
+				<label for="asset-category-select">Category<select id="asset-category-select" name="category"><option value="">Uncategorized</option></select></label>
+				<button class="primary-button form-submit" type="submit">Save category</button>
+			</form>
 			<form id="destination-form" class="template-form">
 				<label for="destination-url">Destination URL<input id="destination-url" name="url" type="url" placeholder="https://lynk.id/yourname"></label>
 				<button class="primary-button form-submit" type="submit">Save link</button>
