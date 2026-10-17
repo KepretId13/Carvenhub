@@ -8,6 +8,8 @@ const searchInput = document.querySelector('#search-input');
 const sortSelect = document.querySelector('#sort-select');
 const filterButtons = [...document.querySelectorAll('.filter-chip')];
 const storageKey = 'forma-library-templates-v1';
+const appearanceStorageKey = 'forma-library-appearance-v1';
+const defaultAppearance = { mode: 'dark', start: '#a8ed72', end: '#f18472' };
 const visualAssetFiles = [
 	'Blue_Mist.webp', 'Blue_Quiet.webp', 'Candy_Sweet.webp', 'Cappucino_Cream.webp', 'Cozy_Pastel.webp',
 	'DeepSleep.webp', 'Desert_Ember.webp', 'Do_Green_Ever.webp', 'Frostline_Dare.webp', 'Green_Valor.webp',
@@ -28,6 +30,26 @@ const visualAssets = visualAssetFiles.map((filename, index) => {
 let activeFilter = 'all';
 let toastTimer;
 let catalogLoaded = false;
+
+function readAppearance() {
+	try {
+		const saved = JSON.parse(localStorage.getItem(appearanceStorageKey) || '{}');
+		return {
+			mode: saved.mode === 'light' ? 'light' : 'dark',
+			start: /^#[0-9a-f]{6}$/i.test(saved.start) ? saved.start : defaultAppearance.start,
+			end: /^#[0-9a-f]{6}$/i.test(saved.end) ? saved.end : defaultAppearance.end
+		};
+	} catch { return { ...defaultAppearance }; }
+}
+
+function applyAppearance(appearance) {
+	document.body.dataset.theme = appearance.mode;
+	document.documentElement.style.setProperty('--theme-start', appearance.start);
+	document.documentElement.style.setProperty('--theme-end', appearance.end);
+}
+
+let currentAppearance = readAppearance();
+applyAppearance(currentAppearance);
 
 // Keep the date labels current instead of baking a date into the HTML.
 document.querySelector('.welcome-row .eyebrow').innerHTML = `<span class="eyebrow-line"></span>${new Intl.DateTimeFormat('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date()).toUpperCase()}`;
@@ -309,6 +331,41 @@ const dialog = document.querySelector('#template-dialog');
 document.querySelector('#add-template').addEventListener('click', () => dialog.showModal());
 document.querySelector('#new-collection').addEventListener('click', () => showToast('Collection tools are ready for your next edit.'));
 document.querySelector('#profile-button').addEventListener('click', () => showToast('Personal workspace settings'));
+const appearanceDialog = document.querySelector('#appearance-dialog');
+const darkModeToggle = document.querySelector('#dark-mode-toggle');
+const gradientStartInput = document.querySelector('#gradient-start');
+const gradientEndInput = document.querySelector('#gradient-end');
+
+function updateGradientPreview() {
+	document.querySelector('#gradient-preview').style.background = `linear-gradient(120deg, ${gradientStartInput.value}, ${gradientEndInput.value})`;
+}
+
+document.querySelector('#appearance-button').addEventListener('click', () => {
+	darkModeToggle.checked = currentAppearance.mode === 'dark';
+	gradientStartInput.value = currentAppearance.start;
+	gradientEndInput.value = currentAppearance.end;
+	updateGradientPreview();
+	appearanceDialog.showModal();
+});
+gradientStartInput.addEventListener('input', updateGradientPreview);
+gradientEndInput.addEventListener('input', updateGradientPreview);
+document.querySelectorAll('.gradient-preset').forEach((button) => button.addEventListener('click', () => {
+	gradientStartInput.value = button.dataset.start;
+	gradientEndInput.value = button.dataset.end;
+	updateGradientPreview();
+}));
+document.querySelector('#apply-appearance').addEventListener('click', () => {
+	currentAppearance = {
+		mode: darkModeToggle.checked ? 'dark' : 'light',
+		start: gradientStartInput.value,
+		end: gradientEndInput.value
+	};
+	applyAppearance(currentAppearance);
+	try { localStorage.setItem(appearanceStorageKey, JSON.stringify(currentAppearance)); }
+	catch { showToast('Browser storage is unavailable for this page.'); }
+	appearanceDialog.close();
+	showToast('Appearance saved on this device');
+});
 document.querySelector('#clear-filters').addEventListener('click', () => {
 	searchInput.value = '';
 	setActiveView('templates');
