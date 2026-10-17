@@ -10,7 +10,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="project.css">
 </head>
-<body>
+<body data-theme="dark">
 	<!-- App shell: holds the fixed workspace sidebar beside the scrollable dashboard. -->
 	<div class="app-shell">
 		<!-- Sidebar: navigation shortcuts and category links filter the catalog below. -->
@@ -57,6 +57,7 @@
 				<div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash">/</span><strong>Overview</strong></div>
 				<div class="topbar-actions">
 					<span class="sync-status"><span class="sync-dot"></span>All changes saved</span>
+					<button class="icon-button appearance-button" id="appearance-button" aria-label="Customize appearance" title="Customize appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.4-3.4 1.8 1.8 0 0 1 1.3-3.1H18a3 3 0 0 0 3-3c0-4.7-4-8.5-9-8.5Z"/><circle cx="7.5" cy="10" r=".8"/><circle cx="11" cy="7" r=".8"/><circle cx="15" cy="8" r=".8"/></svg></button>
 					<button class="icon-button notification-button" aria-label="Notifications" title="Notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><i></i></button>
 					<button class="avatar top-avatar" aria-label="Alex Morgan profile">A</button>
 				</div>
@@ -221,6 +222,27 @@
 				<a class="primary-button" id="open-destination" target="_blank" rel="noopener noreferrer" aria-disabled="true" hidden><span>↗</span> Open destination</a>
 				<button class="remove-link-button" id="remove-destination" type="button" hidden>Remove link</button>
 			</div>
+		</div>
+	</dialog>
+	<dialog class="template-dialog appearance-dialog" id="appearance-dialog">
+		<form method="dialog" class="dialog-close-row"><button class="icon-button close-dialog" aria-label="Close appearance settings">×</button></form>
+		<div class="dialog-content">
+			<p class="eyebrow"><span class="eyebrow-line"></span>YOUR DISPLAY</p>
+			<h2>Set the mood<span class="title-period">.</span></h2>
+			<label class="appearance-mode"><input id="dark-mode-toggle" type="checkbox"><span><strong>Dark background</strong><small>Reduce the bright white surfaces.</small></span></label>
+			<div class="theme-color-heading"><strong>Background gradient</strong><span>Choose your colors</span></div>
+			<div class="gradient-inputs">
+				<label>Color one<input id="gradient-start" type="color" value="#a8ed72"></label>
+				<label>Color two<input id="gradient-end" type="color" value="#f18472"></label>
+			</div>
+			<div class="gradient-preview" id="gradient-preview" aria-label="Gradient preview"></div>
+			<div class="theme-presets" role="group" aria-label="Gradient presets">
+				<button type="button" class="gradient-preset" data-start="#a8ed72" data-end="#f18472" aria-label="Lime and coral gradient" title="Lime and coral"><span style="--swatch-start:#a8ed72;--swatch-end:#f18472"></span></button>
+				<button type="button" class="gradient-preset" data-start="#76d9d3" data-end="#f3bd72" aria-label="Aqua and apricot gradient" title="Aqua and apricot"><span style="--swatch-start:#76d9d3;--swatch-end:#f3bd72"></span></button>
+				<button type="button" class="gradient-preset" data-start="#f28cb3" data-end="#f4d875" aria-label="Rose and butter gradient" title="Rose and butter"><span style="--swatch-start:#f28cb3;--swatch-end:#f4d875"></span></button>
+				<button type="button" class="gradient-preset" data-start="#83aef2" data-end="#8ad5a3" aria-label="Sky and mint gradient" title="Sky and mint"><span style="--swatch-start:#83aef2;--swatch-end:#8ad5a3"></span></button>
+			</div>
+			<button class="primary-button form-submit apply-theme-button" id="apply-appearance" type="button">Apply appearance</button>
 		</div>
 	</dialog>
 	<div class="toast" id="toast" role="status" aria-live="polite"></div>
