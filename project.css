@@ -110,6 +110,12 @@ h1, .dialog-content h2 { margin: 0; font: 600 37px/.99 "Space Grotesk", sans-ser
 #open-destination[aria-disabled="true"] { background: #b9b8b1; cursor: default; pointer-events: none; }
 .remove-link-button { padding: 8px 0; border: 0; background: none; color: #9d5749; font-size: 10px; font-weight: 600; cursor: pointer; }
 .remove-link-button[hidden] { display: none; }
+.library-overview-callout { display: flex; min-height: 155px; align-items: center; justify-content: space-between; gap: 25px; margin-top: 27px; padding: 25px 30px; border: 1px solid #dfe5d1; border-radius: 5px; background: linear-gradient(115deg, color-mix(in srgb, var(--theme-start) 18%, #edf1df), color-mix(in srgb, var(--theme-end) 15%, #f2eee6)); }
+.library-overview-callout h2 { margin: 10px 0 6px; color: #30382d; font: 600 22px/.98 "Space Grotesk", sans-serif; }
+.library-overview-callout p { max-width: 420px; margin: 0; color: #676e60; font-size: 10px; line-height: 1.6; }
+.library-overview-callout .text-button { flex: 0 0 auto; }
+.category-assignment-form { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.category-dialog .dialog-content h2 { margin-bottom: 20px; }
 .asset-template-card .preview { aspect-ratio: 3 / 4; }
 .preview-asset { padding: 0; background: #eef0f5; }
 .preview-asset img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -191,6 +197,9 @@ body[data-theme="dark"] .primary-button { background: var(--theme-start); color:
 body[data-theme="dark"] .primary-button:hover { background: var(--theme-end); }
 body[data-theme="dark"] .button-plus { color: #20212b; }
 body[data-theme="dark"] .template-dialog { border: 1px solid #3b3b4b; background: #1c1d28; color: #f1eff8; }
+body[data-theme="dark"] .library-overview-callout { border-color: #393d47; background: linear-gradient(115deg, color-mix(in srgb, var(--theme-start) 20%, #232630), color-mix(in srgb, var(--theme-end) 16%, #24252c)); }
+body[data-theme="dark"] .library-overview-callout h2 { color: #f0eef8; }
+body[data-theme="dark"] .library-overview-callout p { color: #c2c0cc; }
 body[data-theme="dark"] .template-form label,
 body[data-theme="dark"] .gradient-inputs label { color: #d0cedb; }
 body[data-theme="dark"] .template-form input,
