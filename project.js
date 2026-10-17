@@ -1,12 +1,10 @@
 // 1. Page elements and state: these references are shared by the handlers below.
 const grid = document.querySelector('#template-grid');
-const starterTemplates = document.querySelector('#starter-templates');
 const overviewView = document.querySelector('#overview-view');
 const catalogSection = document.querySelector('#catalog');
 const viewLinks = [...document.querySelectorAll('[data-page-view]')];
 const searchInput = document.querySelector('#search-input');
 const sortSelect = document.querySelector('#sort-select');
-const filterButtons = [...document.querySelectorAll('.filter-chip')];
 const storageKey = 'forma-library-templates-v1';
 const appearanceStorageKey = 'forma-library-appearance-v1';
 const defaultAppearance = { mode: 'dark', start: '#a8ed72', end: '#f18472' };
@@ -23,7 +21,7 @@ const visualAssets = visualAssetFiles.map((filename, index) => {
 		id: `visual-${baseName}`,
 		filename,
 		name: baseName.replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2'),
-		category: 'visual',
+		category: '',
 		date: String(-index)
 	};
 });
@@ -75,14 +73,21 @@ function writeLibrary() {
 		const builtInCards = [...grid.querySelectorAll('.template-card:not(.new-template-card)')];
 		const favorites = Object.fromEntries(builtInCards.map((card) => [card.dataset.id, card.dataset.favorite === 'true']));
 		const links = Object.fromEntries(builtInCards.filter((card) => card.dataset.url).map((card) => [card.dataset.id, card.dataset.url]));
-		localStorage.setItem(storageKey, JSON.stringify({ templates, favorites, links }));
+		const assignments = Object.fromEntries(builtInCards.filter((card) => card.dataset.category).map((card) => [card.dataset.id, card.dataset.category]));
+		localStorage.setItem(storageKey, JSON.stringify({ templates, favorites, links, assignments, categories: customCategories }));
 	} catch { showToast('Browser storage is unavailable for this page.'); }
+}
+
+const savedLibrary = readLibrary();
+const customCategories = Array.isArray(savedLibrary.categories) ? savedLibrary.categories : [];
+
+function categoryLabel(categoryId) {
+	return customCategories.find((category) => category.id === categoryId)?.name || 'Uncategorized';
 }
 
 // Build the same card structure for every template added through the form.
 function createTemplateCard(template) {
 	const safeName = template.name.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
-	const categoryNames = { social: 'SOCIAL & CONTENT', business: 'BUSINESS', lifestyle: 'LIFESTYLE', planning: 'PLANNING' };
 	const typeClass = { Notion: 'type-notion', Canva: 'type-canva', Figma: 'type-figma', PDF: 'type-pdf' }[template.format] || 'type-pdf';
 	const card = document.createElement('article');
 	card.className = 'template-card new-template-card';
@@ -93,8 +98,9 @@ function createTemplateCard(template) {
 	card.dataset.url = template.url || '';
 	card.dataset.date = String(template.date);
 	card.dataset.favorite = String(Boolean(template.favorite));
-	card.innerHTML = `<button class="favorite-button${template.favorite ? ' is-favorite' : ''}" aria-label="${template.favorite ? 'Remove' : 'Add'} ${safeName} ${template.favorite ? 'from' : 'to'} favorites" aria-pressed="${Boolean(template.favorite)}">${template.favorite ? '♥' : '♡'}</button><button class="preview-button new-preview" aria-label="Preview ${safeName}"><span class="new-preview-label">NEW IN YOUR<br>LIBRARY<span>✳</span></span></button><div class="template-meta"><div><span class="template-category">${categoryNames[template.category] || 'TEMPLATE'}</span><h3></h3></div><button class="more-button" aria-label="More options for ${safeName}">···</button></div><div class="template-footer"><span class="file-type"><i class="type-dot ${typeClass}"></i>${template.format}</span><span>Added to library</span></div>`;
+	card.innerHTML = `<button class="favorite-button${template.favorite ? ' is-favorite' : ''}" aria-label="${template.favorite ? 'Remove' : 'Add'} ${safeName} ${template.favorite ? 'from' : 'to'} favorites" aria-pressed="${Boolean(template.favorite)}">${template.favorite ? '♥' : '♡'}</button><button class="preview-button new-preview" aria-label="Preview ${safeName}"><span class="new-preview-label">NEW IN YOUR<br>LIBRARY<span>✳</span></span></button><div class="template-meta"><div><span class="template-category"></span><h3></h3></div><button class="more-button" aria-label="More options for ${safeName}">···</button></div><div class="template-footer"><span class="file-type"><i class="type-dot ${typeClass}"></i>${template.format}</span><span>Added to library</span></div>`;
 	card.querySelector('h3').textContent = template.name;
+	card.querySelector('.template-category').textContent = categoryLabel(template.category).toUpperCase();
 	return card;
 }
 
@@ -103,7 +109,7 @@ function createVisualAssetCard(asset) {
 	const card = document.createElement('article');
 	card.className = 'template-card asset-template-card';
 	card.dataset.id = asset.id;
-	card.dataset.category = asset.category;
+	card.dataset.category = asset.category || '';
 	card.dataset.name = asset.name;
 	card.dataset.date = asset.date;
 	card.dataset.favorite = String(Boolean(savedLibrary.favorites && savedLibrary.favorites[asset.id]));
@@ -126,8 +132,9 @@ function createVisualAssetCard(asset) {
 	previewButton.append(preview);
 	const meta = document.createElement('div');
 	meta.className = 'template-meta';
-	meta.innerHTML = '<div><span class="template-category">VISUALS</span><h3></h3></div><button class="more-button" type="button" aria-label="More visual options">···</button>';
+	meta.innerHTML = '<div><span class="template-category"></span><h3></h3></div><button class="more-button" type="button" aria-label="More options">···</button>';
 	meta.querySelector('h3').textContent = asset.name;
+	meta.querySelector('.template-category').textContent = categoryLabel(asset.category).toUpperCase();
 	meta.querySelector('.more-button').setAttribute('aria-label', `More options for ${asset.name}`);
 	const footer = document.createElement('div');
 	footer.className = 'template-footer';
@@ -136,12 +143,11 @@ function createVisualAssetCard(asset) {
 	return card;
 }
 
-const savedLibrary = readLibrary();
-
 // Build the catalog only when a visitor opens All Templates or Favorites.
 function loadCatalog() {
 	if (catalogLoaded) return;
-	grid.append(starterTemplates.content.cloneNode(true));
+	(savedLibrary.templates || []).forEach((template) => grid.append(createTemplateCard(template)));
+	visualAssets.forEach((asset) => grid.append(createVisualAssetCard(asset)));
 	Object.entries(savedLibrary.favorites || {}).forEach(([id, favorite]) => {
 		const card = grid.querySelector(`[data-id="${CSS.escape(id)}"]`);
 		if (!card) return;
@@ -156,8 +162,13 @@ function loadCatalog() {
 		const card = grid.querySelector(`[data-id="${CSS.escape(id)}"]`);
 		if (card) card.dataset.url = url;
 	});
-	(savedLibrary.templates || []).forEach((template) => grid.append(createTemplateCard(template)));
-	visualAssets.forEach((asset) => grid.append(createVisualAssetCard(asset)));
+	Object.entries(savedLibrary.assignments || {}).forEach(([id, categoryId]) => {
+		const card = grid.querySelector(`[data-id="${CSS.escape(id)}"]`);
+		if (card) {
+			card.dataset.category = categoryId;
+			card.querySelector('.template-category').textContent = categoryLabel(categoryId).toUpperCase();
+		}
+	});
 	catalogLoaded = true;
 	updateCounts();
 }
@@ -172,25 +183,73 @@ function showToast(message) {
 }
 
 function updateCounts() {
-	const cards = catalogLoaded ? [...grid.querySelectorAll('.template-card')] : [...starterTemplates.content.querySelectorAll('.template-card')];
+	const cards = catalogLoaded ? [...grid.querySelectorAll('.template-card')] : [];
 	const savedTemplates = catalogLoaded ? [] : savedLibrary.templates || [];
-	const count = cards.length + savedTemplates.length + (catalogLoaded ? 0 : visualAssets.length);
-	const favorites = cards.filter((card) => {
-		const savedFavorite = savedLibrary.favorites && savedLibrary.favorites[card.dataset.id];
-		return typeof savedFavorite === 'boolean' ? savedFavorite : card.dataset.favorite === 'true';
-	}).length + savedTemplates.filter((template) => template.favorite).length + (catalogLoaded ? 0 : visualAssets.filter((asset) => savedLibrary.favorites && savedLibrary.favorites[asset.id] === true).length);
+	const count = catalogLoaded ? cards.length : visualAssets.length + savedTemplates.length;
+	const favorites = catalogLoaded
+		? cards.filter((card) => card.dataset.favorite === 'true').length
+		: visualAssets.filter((asset) => savedLibrary.favorites && savedLibrary.favorites[asset.id] === true).length + savedTemplates.filter((template) => template.favorite).length;
 	document.querySelector('#sidebar-count').textContent = String(count).padStart(2, '0');
 	document.querySelector('#total-stat').textContent = String(count).padStart(2, '0');
 	document.querySelector('#favorite-stat').textContent = String(favorites).padStart(2, '0');
+	document.querySelector('#category-stat').textContent = String(customCategories.length).padStart(2, '0');
 	document.querySelector('#catalog-count').textContent = `(${String(count).padStart(2, '0')})`;
-	filterButtons.forEach((button) => {
+	document.querySelectorAll('.filter-chip').forEach((button) => {
 		const category = button.dataset.filter;
 		if (category === 'all') button.querySelector('span').textContent = String(count).padStart(2, '0');
 		else if (category === 'favorites') button.textContent = `♡ Favorites ${favorites ? `(${favorites})` : ''}`;
 		else {
-			const categoryCount = cards.filter((card) => card.dataset.category === category).length + savedTemplates.filter((template) => template.category === category).length + (!catalogLoaded && category === 'visual' ? visualAssets.length : 0);
+			const categoryCount = catalogLoaded
+				? cards.filter((card) => card.dataset.category === category).length
+				: visualAssets.filter((asset) => (savedLibrary.assignments || {})[asset.id] === category).length + savedTemplates.filter((template) => template.category === category).length;
 			button.querySelector('span').textContent = String(categoryCount).padStart(2, '0');
 		}
+	});
+}
+
+function updateCategorySelects() {
+	document.querySelectorAll('#template-category, #asset-category-select').forEach((select) => {
+		const selectedCategory = select.value;
+		select.replaceChildren(new Option('Uncategorized', ''));
+		customCategories.forEach((category) => select.add(new Option(category.name, category.id)));
+		select.value = customCategories.some((category) => category.id === selectedCategory) ? selectedCategory : '';
+	});
+}
+
+function renderCategoryControls() {
+	const collectionNav = document.querySelector('.collection-nav');
+	const filterRow = document.querySelector('.filter-row');
+	const favoritesFilter = filterRow.querySelector('[data-filter="favorites"]');
+	collectionNav.replaceChildren();
+	filterRow.querySelectorAll('.category-filter').forEach((button) => button.remove());
+	const dotColors = ['dot-coral', 'dot-blue', 'dot-green', 'dot-yellow'];
+	customCategories.forEach((category, index) => {
+		const link = document.createElement('a');
+		link.className = 'nav-item';
+		link.href = '#catalog';
+		link.dataset.filter = category.id;
+		const dot = document.createElement('span');
+		dot.className = `collection-dot ${dotColors[index % dotColors.length]}`;
+		link.append(dot, document.createTextNode(category.name));
+		collectionNav.append(link);
+
+		const chip = document.createElement('button');
+		chip.className = 'filter-chip category-filter';
+		chip.type = 'button';
+		chip.dataset.filter = category.id;
+		chip.append(document.createTextNode(category.name));
+		const count = document.createElement('span');
+		count.textContent = '00';
+		chip.append(count);
+		filterRow.insertBefore(chip, favoritesFilter);
+	});
+	updateCategorySelects();
+	updateCounts();
+}
+
+function updateFilterSelection() {
+	document.querySelectorAll('.filter-chip').forEach((button) => {
+		button.classList.toggle('selected', button.dataset.filter === activeFilter);
 	});
 }
 
@@ -228,7 +287,7 @@ function setActiveView(view, category = 'all') {
 	if (view === 'overview') return;
 	loadCatalog();
 	activeFilter = view === 'favorites' ? 'favorites' : category;
-	filterButtons.forEach((button) => button.classList.toggle('selected', button.dataset.filter === activeFilter));
+	updateFilterSelection();
 	renderCards();
 }
 
@@ -239,6 +298,8 @@ let activeTemplateCard = null;
 function openTemplateDetails(card) {
 	activeTemplateCard = card;
 	document.querySelector('#destination-title').innerHTML = `${card.dataset.name.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])}<span class="title-period">.</span>`;
+	updateCategorySelects();
+	document.querySelector('#asset-category-select').value = card.dataset.category || '';
 	const urlInput = document.querySelector('#destination-url');
 	urlInput.value = card.dataset.url || '';
 	const hasUrl = Boolean(card.dataset.url);
@@ -249,6 +310,18 @@ function openTemplateDetails(card) {
 	document.querySelector('#remove-destination').hidden = !hasUrl;
 	destinationDialog.showModal();
 }
+
+document.querySelector('#category-assignment-form').addEventListener('submit', (event) => {
+	event.preventDefault();
+	if (!activeTemplateCard) return;
+	activeTemplateCard.dataset.category = new FormData(event.currentTarget).get('category') || '';
+	const categoryTag = activeTemplateCard.querySelector('.template-category');
+	if (categoryTag) categoryTag.textContent = categoryLabel(activeTemplateCard.dataset.category).toUpperCase();
+	writeLibrary();
+	updateCounts();
+	renderCards();
+	showToast(activeTemplateCard.dataset.category ? 'Category saved' : 'Category removed');
+});
 
 document.querySelector('#destination-form').addEventListener('submit', (event) => {
 	event.preventDefault();
@@ -282,23 +355,29 @@ function handleViewNavigation(event) {
 }
 
 function handleFilterNavigation(event) {
-	const button = event.currentTarget;
+	const button = event;
 	if (button.dataset.filter === 'favorites') {
 		setActiveView('favorites');
 		return;
 	}
 	activeFilter = button.dataset.filter;
-	filterButtons.forEach((item) => item.classList.toggle('selected', item === button));
+	updateFilterSelection();
 	renderCards();
 }
 
-function handleCollectionNavigation(event) {
-	setActiveView('templates', event.currentTarget.dataset.filter);
+function handleCollectionNavigation(categoryId) {
+	setActiveView('templates', categoryId);
 }
 
 viewLinks.forEach((link) => link.addEventListener('click', handleViewNavigation));
-filterButtons.forEach((button) => button.addEventListener('click', handleFilterNavigation));
-document.querySelectorAll('.collection-nav [data-filter]').forEach((item) => item.addEventListener('click', handleCollectionNavigation));
+document.querySelector('.filter-row').addEventListener('click', (event) => {
+	const button = event.target.closest('.filter-chip');
+	if (button) handleFilterNavigation(button);
+});
+document.querySelector('.collection-nav').addEventListener('click', (event) => {
+	const link = event.target.closest('[data-filter]');
+	if (link) handleCollectionNavigation(link.dataset.filter);
+});
 searchInput.addEventListener('input', renderCards);
 sortSelect.addEventListener('change', renderCards);
 
@@ -323,13 +402,10 @@ grid.addEventListener('click', (event) => {
 });
 
 // 6. Page actions: featured item, add form, keyboard shortcut, and first render.
-document.querySelectorAll('[data-open-template="weekly-reset"]').forEach((button) => button.addEventListener('click', () => {
-	loadCatalog();
-	openTemplateDetails(grid.querySelector('[data-id="weekly-reset"]'));
-}));
 const dialog = document.querySelector('#template-dialog');
 document.querySelector('#add-template').addEventListener('click', () => dialog.showModal());
-document.querySelector('#new-collection').addEventListener('click', () => showToast('Collection tools are ready for your next edit.'));
+const categoryDialog = document.querySelector('#category-dialog');
+document.querySelector('#new-collection').addEventListener('click', () => categoryDialog.showModal());
 document.querySelector('#profile-button').addEventListener('click', () => showToast('Personal workspace settings'));
 const appearanceDialog = document.querySelector('#appearance-dialog');
 const darkModeToggle = document.querySelector('#dark-mode-toggle');
@@ -386,6 +462,20 @@ document.querySelector('#template-form').addEventListener('submit', (event) => {
 	setActiveView('templates');
 	showToast(`${name} added to your library`);
 });
+document.querySelector('#category-form').addEventListener('submit', (event) => {
+	event.preventDefault();
+	const name = new FormData(event.currentTarget).get('name').trim();
+	if (customCategories.some((category) => category.name.toLowerCase() === name.toLowerCase())) {
+		showToast('That category already exists');
+		return;
+	}
+	customCategories.push({ id: `category-${Date.now()}`, name });
+	writeLibrary();
+	renderCategoryControls();
+	event.currentTarget.reset();
+	categoryDialog.close();
+	showToast(`${name} category created`);
+});
 document.addEventListener('keydown', (event) => {
 	if (event.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
 		event.preventDefault();
@@ -393,5 +483,6 @@ document.addEventListener('keydown', (event) => {
 	}
 	if (event.key === 'Escape' && dialog.open) dialog.close();
 });
+renderCategoryControls();
 setActiveView('overview');
 updateCounts();
